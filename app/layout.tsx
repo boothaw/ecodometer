@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Racing_Sans_One, Overpass } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const racingSansOne = Racing_Sans_One({
+  variable: "--font-racing-sans-one",
   subsets: ["latin"],
+  weight: "400",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const overpass = Overpass({
+  variable: "--font-overpass",
   subsets: ["latin"],
 });
 
@@ -23,10 +24,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en" className={`${racingSansOne.variable} ${overpass.variable}`}>
+      <body className="antialiased">
+        <div className="navbar shadow-sm bg-test">
+            <div className="flex-1">
+              <a className="btn btn-ghost text-xl font-display">ECOdometer</a>
+            </div>
+            <div className="flex-none">
+              <div className="flex-none">
+                  <button className="btn btn-square btn-ghost">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block h-5 w-5 stroke-current"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg>
+                  </button>
+              </div>
+            </div>
+          </div>
         {children}
       </body>
     </html>
