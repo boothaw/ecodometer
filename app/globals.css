@@ -1,6 +1,14 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@theme {
+  --color-navy: #12142b;
+  --color-orange: #ca4500;
+  --color-blue: #7587a0;
+  --color-yellow: #c8990a;
+  --color-white: #e4e8dd;
+}
+
 :root {
   --white: #e4e8dd;
   --navy: #12142b;
