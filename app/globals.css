@@ -13,15 +13,31 @@
   --white: #e4e8dd;
   --navy: #12142b;
   --orange: #ca4500;
-  --blue: 7587a0;
+  --blue: #7587a0;
   --yellow: #c8990a;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --white: #0a0a0a;
-    --navy: #e4e8dd;
+    /* --white: #0a0a0a;
+    --navy: #e4e8dd; */
   }
+}
+
+.navbar {
+  border-bottom: 6px double var(--blue) !important;
+}
+
+.hamburger {
+  color: var(--navy);
+
+  & path {
+    stroke: var(--navy);
+  }
+}
+
+.btn {
+  color: var(--navy);
 }
 
 body {
@@ -34,7 +50,7 @@ body {
   ) !important;
 }
 .btn-ghost {
-  border: 8px double var(--);
+  border: 8px double var(--blue);
   padding: 24px;
 }
 
