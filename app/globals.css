@@ -11,7 +11,7 @@
 
 :root {
   --white: #e4e8dd;
-  --navy: #12142b;
+  --navy: #212651;
   --orange: #ca4500;
   --blue: #7587a0;
   --yellow: #c8990a;
@@ -32,6 +32,7 @@ body {
     "Racing Sans One",
     sans-serif
   ) !important;
+  font-weight: 700;
 }
 
 .font-display {
