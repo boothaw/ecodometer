@@ -12,7 +12,7 @@ export function VehicleCard() {
             <p className="text-left font-extrabold">MPG: xx.x</p>
             <p className="text-left font-extrabold">Miles: xx,xxx</p>
             <div className="card-actions justify-end">
-            <button className="btn btn-primary">View Now</button>
+            <Link href={"/profile/3/vehicle/33"} className="btn btn-primary">View Now</Link>
             </div>
         </div>
     </div>

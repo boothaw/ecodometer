@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default async function Vehicles({
   params,
 }: {
@@ -13,7 +15,7 @@ export default async function Vehicles({
           <h1 className="max-w-xs text-3xl font-semibold text-navy font-display">
             Vehicle - ID: {vehicleId} <br></br> (Profile: {profileId})
           </h1>
-      <a className="btn" href="/new-vehicle">New Vehicle</a>
+      <Link className="btn" href={`/profile/${profileId}/vehicle/new`}>New Vehicle</Link>
         </div>
 
       </main>
