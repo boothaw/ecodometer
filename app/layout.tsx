@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Racing_Sans_One, Overpass } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 const racingSansOne = Racing_Sans_One({
@@ -24,8 +25,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${racingSansOne.variable} ${overpass.variable}`}>
-      <body className="antialiased">
+    <ClerkProvider>
+      <html lang="en" className={`${racingSansOne.variable} ${overpass.variable}`}>
+        <body className="antialiased">
           <div className="navbar bg-white shadow-sm">
             <div className="navbar-start">
               <button className="btn btn-ghost btn-circle">
@@ -57,8 +59,9 @@ export default function RootLayout({
               </div>
             </div>
           </div>
-        {children}
-      </body>
-    </html>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
