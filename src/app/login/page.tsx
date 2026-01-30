@@ -1,4 +1,4 @@
-import { SignInButton, SignUpButton } from "@clerk/nextjs"
+import { SignInButton, SignUpButton, SignIn } from "@clerk/nextjs"
 
 export default function Login() {
   return (
@@ -10,8 +10,7 @@ export default function Login() {
           </h1>
         </div>
         <div className="p-4 items-center justify-center m-auto flex-col flex gap-2">
-          <SignInButton className="p-4 bg-blue text-white rounded-lg">Sign In</SignInButton>
-          <SignUpButton className="p-4 bg-blue text-white rounded-lg">Sign up</SignUpButton>
+         <SignIn  />
         </div>
       </main>
     </div>
