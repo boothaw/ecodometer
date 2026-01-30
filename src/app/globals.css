@@ -94,3 +94,24 @@ h5 {
     stroke: var(--navy);
   }
 }
+
+/* components */
+
+.card {
+  background-color: #fff;
+}
+
+.card-title {
+  border-bottom: 6px double var(--yellow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & h2 {
+    width: 60%;
+  }
+
+  & p {
+    width: 40%;
+  }
+}
