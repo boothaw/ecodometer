@@ -9,10 +9,12 @@ export function VehicleCard() {
                 <h2 className="text-xl text-left">Nickname: PennyRose PennyRose PennyRose PennyRose the destoyer</h2>
                 <p className="text-right font-extrabold text-sm">Toyota - Tacoma</p>
             </div>
-            <p className="text-left font-extrabold">MPG: xx.x</p>
-            <p className="text-left font-extrabold">Miles: xx,xxx</p>
-            <div className="card-actions justify-end">
-            <Link href={"/profile/3/vehicle/33"} className="btn btn-primary">View Now</Link>
+            <div className="flex-col">
+              <p className="text-left font-extrabold">MPG: xx.x</p>
+              <p className="text-left font-extrabold">Miles: xx,xxx</p>
+              </div>
+              <div className="card-actions justify-end">
+              <Link href={"/profile/3/vehicle/33"} className="btn btn-primary">View Now</Link>
             </div>
         </div>
     </div>

@@ -61,10 +61,6 @@ h5 {
   ) !important;
 }
 
-.btn-ghost {
-  /* border: 8px double var(--blue);
-  padding: 24px; */
-}
 .btn {
   color: var(--navy);
 }
@@ -78,7 +74,6 @@ h5 {
 
   &:hover {
     background-color: var(--orange);
-    /* color: var(--); */
   }
 }
 
