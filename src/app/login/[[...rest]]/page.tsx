@@ -1,9 +1,8 @@
-import { SignInButton, SignUpButton, SignIn } from "@clerk/nextjs"
+import { SignIn } from "@clerk/nextjs";
 
-export default function Login() {
+export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center font-body">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center py-16 px-4 sm:items-start">
+      <main className="flex mx-auto min-h-screen w-full max-w-3xl flex-col items-center py-16 px-4 sm:items-start">
         <div className="flex flex-col items-center gap-.5 text-center sm:text-left mx-auto">
           <h1 className="max-w-xs text-5xl font-semibold leading-10 tracking-tight text-center dark:text-zinc-50 font-display m-0">
             Login
@@ -13,6 +12,5 @@ export default function Login() {
          <SignIn  />
         </div>
       </main>
-    </div>
-      )
-  }
+  );
+}
