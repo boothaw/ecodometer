@@ -2,7 +2,7 @@
 @plugin "daisyui";
 
 @theme {
-  --color-navy: #12142b;
+  --color-navy: #212651;
   --color-orange: #ca4500;
   --color-blue: #7587a0;
   --color-yellow: #c8990a;
@@ -11,16 +11,16 @@
 
 :root {
   --white: #e4e8dd;
-  --navy: #12142b;
+  --navy: #212651;
   --orange: #ca4500;
-  --blue: 7587a0;
+  --blue: #7587a0;
   --yellow: #c8990a;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --white: #0a0a0a;
-    --navy: #e4e8dd;
+    /* --white: #0a0a0a;
+    --navy: #e4e8dd; */
   }
 }
 
@@ -32,10 +32,7 @@ body {
     "Racing Sans One",
     sans-serif
   ) !important;
-}
-.btn-ghost {
-  border: 8px double var(--);
-  padding: 24px;
+  font-weight: 700;
 }
 
 .font-display {
@@ -47,9 +44,10 @@ body {
 }
 
 .font-body {
-  color: pink !important;
   font-family: var(--font-overpass, "Overpass", sans-serif) !important;
 }
+
+/* generic */
 
 h1,
 h2,
@@ -61,4 +59,54 @@ h5 {
     "Racing Sans One",
     sans-serif
   ) !important;
+}
+
+.btn {
+  color: var(--navy);
+}
+
+.btn-primary {
+  background-color: var(--navy);
+  color: var(--white);
+  outline: 0;
+  border: 0;
+  box-shadow: 0;
+
+  &:hover {
+    background-color: var(--orange);
+  }
+}
+
+/* navigation */
+.navbar {
+  border-bottom: 6px double var(--blue) !important;
+}
+
+.hamburger {
+  color: var(--navy);
+
+  & path {
+    stroke: var(--navy);
+  }
+}
+
+/* components */
+
+.card {
+  background-color: #fff;
+}
+
+.card-title {
+  border-bottom: 6px double var(--yellow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & h2 {
+    width: 60%;
+  }
+
+  & p {
+    width: 40%;
+  }
 }
