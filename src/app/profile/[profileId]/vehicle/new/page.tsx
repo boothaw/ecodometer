@@ -1,14 +1,97 @@
-export default function NewVehicles() {
+import { getProfileForCurrentUser } from "@/src/lib/profile";
+import { prisma } from "@/src/lib/db";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+
+export default async function NewVehiclePage({
+  params,
+}: {
+  params: Promise<{ profileId: string }>;
+}) {
+  const profile = await getProfileForCurrentUser();
+  const profileIdNum = Number((await params).profileId);
+
+  if (profileIdNum !== profile.id) {
+    redirect(`/profile/${profile.id}/vehicle/new`);
+  }
+
+  async function createVehicle(formData: FormData) {
+    "use server";
+    const profile = await getProfileForCurrentUser();
+    const name = (formData.get("name") as string) || null;
+    const yearRaw = formData.get("year");
+    const year = yearRaw ? Number(yearRaw) : null;
+    const model = (formData.get("model") as string) || null;
+    const make = (formData.get("make") as string) || null;
+
+    await prisma.vehicle.create({
+      data: {
+        ownerId: profile.id,
+        name: name || undefined,
+        year: year ?? undefined,
+        model: model || undefined,
+        make: make || undefined,
+      },
+    });
+    redirect(`/profile/${profile.id}`);
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center font-body">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 sm:items-start">
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold text-navy font-display">
+        <div className="flex flex-col gap-6 text-center sm:text-left w-full max-w-md">
+          <h1 className="text-3xl font-semibold text-navy font-display">
             New Vehicle
           </h1>
-      
+          <form action={createVehicle} className="flex flex-col gap-3">
+            <label className="form-control w-full">
+              <span className="label-text">Nickname</span>
+              <input
+                type="text"
+                name="name"
+                placeholder="e.g. Daily driver"
+                className="input input-bordered w-full"
+              />
+            </label>
+            <label className="form-control w-full">
+              <span className="label-text">Make</span>
+              <input
+                type="text"
+                name="make"
+                placeholder="e.g. Toyota"
+                className="input input-bordered w-full"
+              />
+            </label>
+            <label className="form-control w-full">
+              <span className="label-text">Model</span>
+              <input
+                type="text"
+                name="model"
+                placeholder="e.g. Tacoma"
+                className="input input-bordered w-full"
+              />
+            </label>
+            <label className="form-control w-full">
+              <span className="label-text">Year</span>
+              <input
+                type="number"
+                name="year"
+                placeholder="e.g. 2020"
+                min={1900}
+                max={2100}
+                className="input input-bordered w-full"
+              />
+            </label>
+            <div className="flex gap-2 mt-2">
+              <button type="submit" className="btn btn-primary">
+                Add vehicle
+              </button>
+              <Link href={`/profile/${profile.id}`} className="btn btn-ghost">
+                Cancel
+              </Link>
+            </div>
+          </form>
         </div>
-
       </main>
     </div>
   );
