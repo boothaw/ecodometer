@@ -23,6 +23,8 @@ export default async function NewVehiclePage({
     const year = yearRaw ? Number(yearRaw) : null;
     const model = (formData.get("model") as string) || null;
     const make = (formData.get("make") as string) || null;
+    const milesRaw = formData.get("miles");
+    const miles = milesRaw != null && milesRaw !== "" ? Number(milesRaw) : 0;
 
     await prisma.vehicle.create({
       data: {
@@ -31,15 +33,18 @@ export default async function NewVehiclePage({
         year: year ?? undefined,
         model: model || undefined,
         make: make || undefined,
+        miles,
       },
     });
     redirect(`/profile/${profile.id}`);
   }
 
+  const currentYearPlusOne = new Date().getFullYear() + 1;
+
   return (
     <div className="flex min-h-screen items-center justify-center font-body">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 sm:items-start">
-        <div className="flex flex-col gap-6 text-center sm:text-left w-full max-w-md">
+        <div className="flex flex-col mx-auto gap-6 text-center sm:text-left w-full max-w-md">
           <h1 className="text-3xl font-semibold text-navy font-display">
             New Vehicle
           </h1>
@@ -78,7 +83,18 @@ export default async function NewVehiclePage({
                 name="year"
                 placeholder="e.g. 2020"
                 min={1900}
-                max={2100}
+                max={currentYearPlusOne}
+                className="input input-bordered w-full"
+              />
+            </label>
+            <label className="form-control w-full">
+              <span className="label-text">Total Miles</span>
+              <input
+                type="number"
+                name="miles"
+                placeholder="e.g. 55000"
+                min={0}
+                max={500000}
                 className="input input-bordered w-full"
               />
             </label>

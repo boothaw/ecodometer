@@ -25,4 +25,5 @@ model Vehicle {
   year    Int?
   model   String?
   make    String?
+  miles   Int 
 }

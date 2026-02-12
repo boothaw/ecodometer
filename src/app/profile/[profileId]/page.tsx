@@ -1,6 +1,7 @@
 import { VehicleCard } from "@/src/components/VehicleCard";
 import { getProfileForCurrentUser, getProfileIfOwnedByCurrentUser } from "@/src/lib/profile";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function Profile({
   params,
@@ -43,7 +44,10 @@ export default async function Profile({
           </h1>
 
           {profile.vehicles.length === 0 ? (
+            <>
             <p className="text-base-content/80">No vehicles yet.</p>
+            <Link href={`/profile/${profile.id}/vehicle/new`}>Add New Vehicle</Link>
+            </>
           ) : (
             <ul className="flex flex-col gap-4 w-full">
               {profile.vehicles.map((vehicle) => (
@@ -55,6 +59,7 @@ export default async function Profile({
                       make: vehicle.make,
                       model: vehicle.model,
                       year: vehicle.year ?? undefined,
+                      miles: vehicle.miles ?? undefined,
                     }}
                     profileId={profile.id}
                   />

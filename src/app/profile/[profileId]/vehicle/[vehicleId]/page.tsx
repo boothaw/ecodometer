@@ -38,6 +38,11 @@ export default async function VehiclePage({
           {vehicle.year != null && (
             <p className="text-base-content/80">Year: {vehicle.year}</p>
           )}
+          {vehicle.miles != null && (
+            <p className="text-base-content/80">
+              Miles: {vehicle.miles.toLocaleString()}
+            </p>
+          )}
           <div className="flex gap-2">
             <Link
               className="btn btn-primary"
