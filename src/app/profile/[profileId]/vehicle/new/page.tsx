@@ -55,6 +55,7 @@ export default async function NewVehiclePage({
                 type="text"
                 name="name"
                 placeholder="e.g. Daily driver"
+                required
                 className="input input-bordered w-full"
               />
             </label>
@@ -64,6 +65,7 @@ export default async function NewVehiclePage({
                 type="text"
                 name="make"
                 placeholder="e.g. Toyota"
+                required
                 className="input input-bordered w-full"
               />
             </label>
@@ -73,6 +75,7 @@ export default async function NewVehiclePage({
                 type="text"
                 name="model"
                 placeholder="e.g. Tacoma"
+                required
                 className="input input-bordered w-full"
               />
             </label>
@@ -84,6 +87,7 @@ export default async function NewVehiclePage({
                 placeholder="e.g. 2020"
                 min={1900}
                 max={currentYearPlusOne}
+                required
                 className="input input-bordered w-full"
               />
             </label>
@@ -95,6 +99,7 @@ export default async function NewVehiclePage({
                 placeholder="e.g. 55000"
                 min={0}
                 max={500000}
+                required
                 className="input input-bordered w-full"
               />
             </label>
