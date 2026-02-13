@@ -1,6 +1,7 @@
 import { getProfileForCurrentUser, getVehicleIfOwnedByCurrentUser } from "@/src/lib/profile";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { RefuelCard } from "@/src/components/RefuelCard";
 
 export default async function VehiclePage({
   params,
@@ -35,14 +36,48 @@ export default async function VehiclePage({
           <h1 className="max-w-xs text-3xl font-semibold text-navy font-display">
             {vehicle.name ?? "Vehicle"} {makeModel && `— ${makeModel}`}
           </h1>
-          {vehicle.year != null && (
+          {/* {vehicle.year != null && (
             <p className="text-base-content/80">Year: {vehicle.year}</p>
           )}
           {vehicle.miles != null && (
             <p className="text-base-content/80">
               Miles: {vehicle.miles.toLocaleString()}
             </p>
-          )}
+          )} */}
+          <RefuelCard
+              vehicle={{
+                id: vehicle.id,
+                miles: vehicle.miles ?? undefined,
+              }}
+              profileId={profileIdNum}
+            />
+              
+          {/*
+          use as example, but with form
+          {profile.vehicles.length === 0 ? (
+            <>
+            <p className="text-base-content/80">No vehicles yet.</p>
+            <Link href={`/profile/${profile.id}/vehicle/new`}>Add New Vehicle</Link>
+            </>
+          ) : (
+            <ul className="flex flex-col gap-4 w-full">
+              {profile.vehicles.map((vehicle) => (
+                <li key={vehicle.id}>
+                  <VehicleCard
+                    vehicle={{
+                      id: vehicle.id,
+                      name: vehicle.name,
+                      make: vehicle.make,
+                      model: vehicle.model,
+                      year: vehicle.year ?? undefined,
+                      miles: vehicle.miles ?? undefined,
+                    }}
+                    profileId={profile.id}
+                  />
+                </li>
+              ))}
+            </ul>
+          )} */}
           <div className="flex gap-2">
             <Link
               className="btn btn-primary"
