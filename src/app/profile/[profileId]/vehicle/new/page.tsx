@@ -44,11 +44,11 @@ export default async function NewVehiclePage({
   return (
     <div className="flex min-h-screen items-center justify-center font-body">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 sm:items-start">
-        <div className="flex flex-col mx-auto gap-6 text-center sm:text-left w-full max-w-md">
-          <h1 className="text-3xl font-semibold text-navy font-display">
+        <div className="card-body card bg-white flex flex-col mx-auto gap-6 text-center sm:text-left w-full max-w-md">
+          <h1 className="text-3xl font-semibold text-navy font-display card-title">
             New Vehicle
           </h1>
-          <form action={createVehicle} className="flex flex-col gap-3">
+          <form action={createVehicle} className="flex flex-col gap-3 form">
             <label className="form-control w-full">
               <span className="label-text">Nickname</span>
               <input
