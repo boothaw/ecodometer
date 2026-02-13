@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider signInFallbackRedirectUrl="/profile" signUpFallbackRedirectUrl="/profile">
       <html lang="en" className={`${racingSansOne.variable} ${overpass.variable}`}>
         <body className="antialiased">
           <Nav />

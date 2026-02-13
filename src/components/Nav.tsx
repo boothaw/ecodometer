@@ -16,7 +16,7 @@ export default async function Nav() {
     <div className="navbar bg-white shadow-sm">
       <div className="navbar-start">
         <SignedOut>
-          <Link href={"/login"}>Login</Link>
+          <Link href={"/login"}>Login or Signup</Link>
         </SignedOut>
         <SignedIn>
           <UserButton />
