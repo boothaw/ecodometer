@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Profile {
+  id          Int       @id @default(autoincrement())
+  clerkUserId String    @unique
+  name        String?
+  vehicles    Vehicle[]
+}
+
+model Vehicle {
+  id      Int     @id @default(autoincrement())
+  ownerId Int
+  owner   Profile @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  name    String?
+  year    Int?
+  model   String?
+  make    String?
+  miles   Int 
+}

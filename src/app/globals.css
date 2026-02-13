@@ -96,6 +96,10 @@ h5 {
   background-color: #fff;
 }
 
+.card-body {
+  flex: none !important;
+}
+
 .card-title {
   border-bottom: 6px double var(--yellow);
   display: flex;
@@ -108,5 +112,11 @@ h5 {
 
   & p {
     width: 40%;
+  }
+}
+
+.form {
+  input {
+    background-color: var(--white);
   }
 }
