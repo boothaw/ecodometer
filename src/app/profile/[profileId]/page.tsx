@@ -67,6 +67,14 @@ export default async function Profile({
               ))}
             </ul>
           )}
+            <div className="flex gap-2">
+            <Link
+              className="btn"
+              href={`/profile/${profileId}/vehicle/new`}
+            >
+              New Vehicle
+            </Link>
+          </div>
         </div>
       </main>
     </div>
