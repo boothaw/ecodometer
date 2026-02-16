@@ -30,11 +30,13 @@ model Vehicle {
 }
 
 model Refuel {
-  id        Int      @id @default(autoincrement())
+   id        Int      @id @default(autoincrement())
   vehicleId Int
   vehicle   Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
   miles     Int
   gallons   Decimal  @db.Decimal(10, 3)
   date      DateTime @default(now())
   createdAt DateTime @default(now())
+
+  @@index([vehicleId, date])
 }

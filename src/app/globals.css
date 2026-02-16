@@ -63,6 +63,10 @@ h5 {
 
 .btn {
   color: var(--navy);
+
+  & svg {
+    width: 20px;
+  }
 }
 
 .btn-primary {
@@ -113,6 +117,10 @@ h5 {
   & p {
     width: 40%;
   }
+}
+
+.card-title.car-title {
+  border-bottom: 0px;
 }
 
 .form {
