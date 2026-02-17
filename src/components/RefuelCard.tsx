@@ -17,8 +17,8 @@ export function RefuelCard({ vehicle, profileId }: RefuelCardProps) {
   return (
     <div className="card card-border w-100 max-w-2xl bg-white">
         <div className="card-body">
-            <div className="card-title justify-between gap-6">
-                <h2 className="text-2xl text-left">XX.X <span className="text-sm">MPG</span></h2>
+            <div className="card-title justify-between gap-6 tems-center">
+                <h3 className="text-2xl text-left">XX.X <span className="text-sm font-body font-bold">MPG</span></h3>
                 <p className="text-right font-extrabold text-sm">{milesDisplay}</p>
             </div>
             <div className="flex justify-between gap-2">
