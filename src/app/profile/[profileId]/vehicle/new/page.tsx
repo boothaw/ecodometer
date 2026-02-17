@@ -1,6 +1,7 @@
 import { getProfileForCurrentUser } from "@/src/lib/profile";
 import { prisma } from "@/src/lib/db";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import Link from "next/link";
 
 export default async function NewVehiclePage({
@@ -36,6 +37,7 @@ export default async function NewVehiclePage({
         miles,
       },
     });
+    revalidatePath(`/profile/${profile.id}`) 
     redirect(`/profile/${profile.id}`);
   }
 
