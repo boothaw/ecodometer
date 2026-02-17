@@ -25,50 +25,23 @@ export default async function RefuelForm({
 
   return (
     <div className="flex min-h-screen items-center justify-center font-body">
-      <main className="flex min-h-screen max-w-3xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
         <div className="card-body card bg-white flex flex-col mx-auto gap-6 text-center sm:text-left w-full max-w-md">
-          <h1 className="text-3xl font-semibold text-navy font-display card-title">
-            New Vehicle
-          </h1>
+          <h3 className="text-lg font-semibold text-navy font-display card-title">
+            Fill Er' Up
+          </h3>
           <form action={newRefuel} className="flex flex-col gap-3 form">
-            <label className="form-control w-full">
-              <span className="label-text">Nickname</span>
-              <input
-                type="text"
-                name="name"
-                placeholder="e.g. Daily driver"
-                required
-                className="input input-bordered w-full"
-              />
+            <label className="form-control w-full" >
+              <span className="label-text">Date</span>
+                <input className="input input-bordered w-full" type="datetime-local" id="event-date" name="event-date" required />
             </label>
             <label className="form-control w-full">
-              <span className="label-text">Make</span>
-              <input
-                type="text"
-                name="make"
-                placeholder="e.g. Toyota"
-                required
-                className="input input-bordered w-full"
-              />
-            </label>
-            <label className="form-control w-full">
-              <span className="label-text">Model</span>
-              <input
-                type="text"
-                name="model"
-                placeholder="e.g. Tacoma"
-                required
-                className="input input-bordered w-full"
-              />
-            </label>
-            <label className="form-control w-full">
-              <span className="label-text">Year</span>
+              <span className="label-text">Gallons Used</span>
               <input
                 type="number"
-                name="year"
-                placeholder="e.g. 2020"
-                min={1900}
-                // max={currentYearPlusOne}
+                name="gallons"
+                placeholder="e.g. 20.5"
+                min={0}
+                max={50}
                 required
                 className="input input-bordered w-full"
               />
@@ -80,14 +53,16 @@ export default async function RefuelForm({
                 name="miles"
                 placeholder="e.g. 55000"
                 min={0}
+                // make min most recent miles
                 max={500000}
+                // make max most recent + 1000 miles
                 required
                 className="input input-bordered w-full"
               />
             </label>
             <div className="flex gap-2 mt-2">
               <button type="submit" className="btn btn-primary">
-                Add vehicle
+                Add Fill Up
               </button>
               <Link href={`/profile/${profile.id}`} className="btn btn-ghost">
                 Cancel
@@ -95,7 +70,6 @@ export default async function RefuelForm({
             </div>
           </form>
         </div>
-      </main>
     </div>
   );
 }
