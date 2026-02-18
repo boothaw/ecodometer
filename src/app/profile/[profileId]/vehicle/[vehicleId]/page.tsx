@@ -32,7 +32,6 @@ export default async function VehiclePage({
 
   const makeModel = [vehicle.make, vehicle.model].filter(Boolean).join(" ") || "—";
 
-
   return (
     <div className="flex min-h-screen items-center justify-center font-body">
       <main className="flex min-h-screen max-w-3xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
@@ -60,11 +59,8 @@ export default async function VehiclePage({
 
             <RefuelForm
             // profile={profileId}
-              // vehicle={{
-              //   id: vehicle.id,
-              //   miles: vehicle.miles ?? undefined,
-              // }}
-              // profileId={profileIdNum}
+              vehicle={vehicle}
+              profileId={profileIdNum}
             />
               
           
