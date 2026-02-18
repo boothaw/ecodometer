@@ -1,4 +1,5 @@
 import { getProfileForCurrentUser, getVehicleIfOwnedByCurrentUser } from "@/src/lib/profile";
+import { prisma } from "@/src/lib/db";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { RefuelCard } from "@/src/components/RefuelCard";
@@ -32,6 +33,26 @@ export default async function VehiclePage({
 
   const makeModel = [vehicle.make, vehicle.model].filter(Boolean).join(" ") || "—";
 
+  const refuels = await prisma.refuel.findMany({
+    where: { vehicleId: vehicle.id },
+    orderBy: { date: "desc" },
+  });
+
+  // Overall lifetime MPG: total miles driven / total gallons across all refuels
+  let overallMpg: string | null = null;
+  if (refuels.length >= 2) {
+    const newest = refuels[0];
+    const oldest = refuels[refuels.length - 1];
+    const totalMiles = newest.miles - oldest.miles;
+    // Sum gallons for all refuels except the oldest (it filled the tank but we don't know miles driven on it)
+    const totalGallons = refuels
+      .slice(0, -1)
+      .reduce((sum, r) => sum + r.gallons.toNumber(), 0);
+    if (totalGallons > 0) {
+      overallMpg = (totalMiles / totalGallons).toFixed(1);
+    }
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center font-body">
       <main className="flex min-h-screen max-w-3xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
@@ -42,7 +63,7 @@ export default async function VehiclePage({
               <span className="text-yellow text-base">=</span> <span className="text-base">{makeModel && `${makeModel}`}</span> <span className="text-yellow text-base">=</span>
             </h1>
             <div className="flex justify-center w-full items-center">
-                <h2 className="text-2xl text-center">XX.X <span className="text-sm font-body font-bold">MPG</span></h2>
+                <h2 className="text-2xl text-center">{overallMpg ?? "—"} <span className="text-sm font-body font-bold">MPG</span></h2>
             </div>
           </div>
 
@@ -58,28 +79,22 @@ export default async function VehiclePage({
             <RefuelForm vehicle={vehicle} profileId={profileIdNum} />
           </details>
 
-          {/* use as example - make own component with skeleton - can be client side since these will be forms */}
-          {/*  */}
-          {myProfile.vehicles.length === 0 ? (
-            <>
+          {refuels.length === 0 ? (
             <p className="text-base-content/80">No refuels yet.</p>
-            <Link href={`/fillupstuff`}>Fill Up</Link>
-            </>
           ) : (
             <ul className="flex flex-col gap-4 w-full">
-              {myProfile.vehicles.map((vehicle) => (
-                <li key={vehicle.id}>
-                    <RefuelCard
-                      vehicle={{
-                        id: vehicle.id,
-                        miles: vehicle.miles ?? undefined,
-                      }}
-                      profileId={profileIdNum}
-                    />
+              {refuels.slice(0, -1).map((refuel, i) => (
+                <li key={refuel.id}>
+                  <RefuelCard
+                    refuel={refuel}
+                    prevMiles={refuels[i + 1]?.miles ?? null}
+                    profileId={profileIdNum}
+                  />
                 </li>
               ))}
             </ul>
           )}
+
           <div className="flex justify-center w-full">
             <Link
               className="btn btn-primary"

@@ -2,28 +2,40 @@ import Link from "next/link"
 import { Skeleton, SkeletonButton } from "./Skeleton"
 
 type RefuelCardProps = {
-  vehicle: {
+  refuel: {
     id: number
-    miles?: number | null
-    date?: Date | null
-    gallons?: number | null
+    miles: number
+    gallons: { toNumber(): number }
+    date: Date
   }
+  prevMiles: number | null
   profileId: number
 }
 
-export function RefuelCard({ vehicle, profileId }: RefuelCardProps) {
-  const milesDisplay =
-    vehicle.miles != null ? vehicle.miles.toLocaleString() : "—"
+export function RefuelCard({ refuel, prevMiles, profileId }: RefuelCardProps) {
+  const mpg =
+    prevMiles != null
+      ? ((refuel.miles - prevMiles) / refuel.gallons.toNumber()).toFixed(1)
+      : null;
+
+  const milesDisplay = refuel.miles.toLocaleString();
+
+  const dateDisplay = refuel.date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
   return (
     <div className="card card-border w-100 max-w-2xl bg-white">
         <div className="card-body">
-            <div className="card-title justify-between gap-6 tems-center">
-                <h3 className="text-2xl text-left">XX.X <span className="text-sm font-body font-bold">MPG</span></h3>
-                <p className="text-right font-extrabold text-sm">{milesDisplay}</p>
+            <div className="card-title justify-between gap-6 items-center">
+                <h3 className="text-2xl text-left">{mpg ?? "--"} <span className="text-sm font-body font-bold">MPG</span></h3>
+                <p className="text-right font-extrabold text-sm">{milesDisplay} mi</p>
             </div>
             <div className="flex justify-between gap-2">
-            <div className="flex-col">
-              <p className="text-left font-extrabold">Example Notes: This was a rough day on the beach. Lots of 4x4 driving.</p>
+            <div className="flex items-center">
+              <p className="text-left text-sm font-body">{dateDisplay}</p>
             </div>
             <div className="card-actions justify-end">
               <Link href="#" className="btn btn-primary">

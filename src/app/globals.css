@@ -59,10 +59,11 @@ h5 {
     "Racing Sans One",
     sans-serif
   ) !important;
+  color: var(--navy);
 }
 
 .btn {
-  color: var(--navy);
+  /* color: var(--navy); */
 
   & svg {
     width: 20px;
