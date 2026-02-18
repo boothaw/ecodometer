@@ -1,4 +1,5 @@
 import { newRefuel } from "../actions/refuels";
+import CloseDetailsButton from "./CloseDetailsButton";
 import Link from "next/link";
 
 type RefuelFormProps = {
@@ -15,9 +16,12 @@ export default function RefuelForm({ vehicle, profileId }: RefuelFormProps) {
   const now = new Date();
   const pad = (n: number) => n.toString().padStart(2, "0");
   const formattedDate = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+  const vehicleMiles = vehicle.miles ?? undefined;
+
+
 
   return (
-    <div className="flex items-center justify-center font-body w-full">
+    <div className="flex items-center justify-center font-body w-full mt-4">
       <div className="card-body card bg-white flex flex-col mx-auto gap-6 text-center sm:text-left w-full max-w-md">
         <h3 className="text-lg font-semibold text-navy font-display card-title">
           Fill Er&apos; Up
@@ -30,6 +34,7 @@ export default function RefuelForm({ vehicle, profileId }: RefuelFormProps) {
               type="number"
               name="gallons"
               placeholder="e.g. 20.5"
+              step="0.01"
               min={0}
               max={50}
               required
@@ -41,10 +46,10 @@ export default function RefuelForm({ vehicle, profileId }: RefuelFormProps) {
             <input
               type="number"
               name="miles"
-              placeholder="e.g. 55000"
-              // min={vehicle.miles}
+              placeholder={(vehicle.miles ?? undefined)?.toString()}
+              min={vehicle.miles ?? undefined}
               // make min most recent miles
-              // max={vehicle.miles + 1000}
+              max={vehicle.miles != null ? vehicle.miles + 1000 : undefined}
               // make max most recent + 1000 miles
               required
               className="input input-bordered w-full"
@@ -65,10 +70,7 @@ export default function RefuelForm({ vehicle, profileId }: RefuelFormProps) {
             <button type="submit" className="btn btn-primary">
               Add Fill Up
             </button>
-            {/* have cancel hide this form */}
-            {/* <Link href={`/profile/${profileId}`} className="btn btn-ghost">
-              Cancel
-            </Link> */}
+            <CloseDetailsButton />
           </div>
         </form>
       </div>
