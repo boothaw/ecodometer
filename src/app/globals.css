@@ -59,10 +59,15 @@ h5 {
     "Racing Sans One",
     sans-serif
   ) !important;
+  color: var(--navy);
 }
 
 .btn {
-  color: var(--navy);
+  /* color: var(--navy); */
+
+  & svg {
+    width: 20px;
+  }
 }
 
 .btn-primary {
@@ -113,6 +118,10 @@ h5 {
   & p {
     width: 40%;
   }
+}
+
+.card-title.car-title {
+  border-bottom: 0px;
 }
 
 .form {

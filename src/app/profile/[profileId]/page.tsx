@@ -1,5 +1,7 @@
 import { VehicleCard } from "@/src/components/VehicleCard";
 import { getProfileForCurrentUser, getProfileIfOwnedByCurrentUser } from "@/src/lib/profile";
+import { prisma } from "@/src/lib/db";
+import { calcMpg } from "@/src/lib/mpg";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
@@ -35,9 +37,25 @@ export default async function Profile({
     (myProfile.id === profile.id ? "My profile" : undefined) ||
     "Profile";
 
+  // Fetch all refuels for this profile's vehicles in one query (asc for calcMpg)
+  const vehicleIds = profile.vehicles.map((v) => v.id);
+  const allRefuels = vehicleIds.length > 0
+    ? await prisma.refuel.findMany({
+        where: { vehicleId: { in: vehicleIds } },
+        orderBy: { date: "asc" },
+        select: { vehicleId: true, miles: true, gallons: true },
+      })
+    : [];
+
+  const mpgByVehicleId = new Map<number, string | null>();
+  for (const vehicle of profile.vehicles) {
+    const vRefuels = allRefuels.filter((r) => r.vehicleId === vehicle.id);
+    mpgByVehicleId.set(vehicle.id, calcMpg(vRefuels));
+  }
+  
   return (
     <div className="flex min-h-screen items-center justify-center font-body">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 sm:items-start">
+      <main className="flex min-h-screen max-w-3xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
         <div className="flex flex-col items-center justify-center mx-auto gap-6 text-center">
           <h1 className="max-w-xs text-3xl font-semibold text-navy font-display">
             {displayName}
@@ -61,6 +79,7 @@ export default async function Profile({
                       year: vehicle.year ?? undefined,
                       miles: vehicle.miles ?? undefined,
                     }}
+                    mpg={mpgByVehicleId.get(vehicle.id) ?? null}
                     profileId={profile.id}
                   />
                 </li>

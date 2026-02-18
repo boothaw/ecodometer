@@ -18,12 +18,25 @@ model Profile {
 }
 
 model Vehicle {
-  id      Int     @id @default(autoincrement())
+  id      Int      @id @default(autoincrement())
   ownerId Int
-  owner   Profile @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner   Profile  @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   name    String?
   year    Int?
   model   String?
   make    String?
   miles   Int 
+  refuels Refuel[]
+}
+
+model Refuel {
+  id        Int      @id @default(autoincrement())
+  vehicleId Int
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  miles     Int
+  gallons   Decimal  @db.Decimal(10, 3)
+  date      DateTime @default(now())
+  createdAt DateTime @default(now())
+
+  @@index([vehicleId, date])
 }

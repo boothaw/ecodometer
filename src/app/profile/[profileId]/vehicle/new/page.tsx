@@ -1,6 +1,7 @@
 import { getProfileForCurrentUser } from "@/src/lib/profile";
 import { prisma } from "@/src/lib/db";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import Link from "next/link";
 
 export default async function NewVehiclePage({
@@ -36,6 +37,7 @@ export default async function NewVehiclePage({
         miles,
       },
     });
+    revalidatePath(`/profile/${profile.id}`) 
     redirect(`/profile/${profile.id}`);
   }
 
@@ -43,7 +45,7 @@ export default async function NewVehiclePage({
 
   return (
     <div className="flex min-h-screen items-center justify-center font-body">
-      <main className=" min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 sm:items-start">
+      <main className="flex min-h-screen max-w-3xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
         <div className="card-body card bg-white flex flex-col mx-auto gap-6 text-center sm:text-left w-full max-w-md">
           <h1 className="text-3xl font-semibold text-navy font-display card-title">
             New Vehicle

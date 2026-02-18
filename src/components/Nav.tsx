@@ -24,7 +24,7 @@ export default async function Nav() {
       </div>
       <div className="navbar-center">
         <a href="/" className="btn btn-ghost text-xl font-display">
-          ECOdometer
+          <span className="text-yellow">=</span> ECOdometer <span className="text-yellow">=</span>
         </a>
       </div>
       <div className="navbar-end">
