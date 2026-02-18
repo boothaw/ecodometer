@@ -1,5 +1,7 @@
 import { VehicleCard } from "@/src/components/VehicleCard";
 import { getProfileForCurrentUser, getProfileIfOwnedByCurrentUser } from "@/src/lib/profile";
+import { prisma } from "@/src/lib/db";
+import { calcMpg } from "@/src/lib/mpg";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
@@ -35,7 +37,21 @@ export default async function Profile({
     (myProfile.id === profile.id ? "My profile" : undefined) ||
     "Profile";
 
-console.log("profileee", profile.vehicles)
+  // Fetch all refuels for this profile's vehicles in one query (asc for calcMpg)
+  const vehicleIds = profile.vehicles.map((v) => v.id);
+  const allRefuels = vehicleIds.length > 0
+    ? await prisma.refuel.findMany({
+        where: { vehicleId: { in: vehicleIds } },
+        orderBy: { date: "asc" },
+        select: { vehicleId: true, miles: true, gallons: true },
+      })
+    : [];
+
+  const mpgByVehicleId = new Map<number, string | null>();
+  for (const vehicle of profile.vehicles) {
+    const vRefuels = allRefuels.filter((r) => r.vehicleId === vehicle.id);
+    mpgByVehicleId.set(vehicle.id, calcMpg(vRefuels));
+  }
   
   return (
     <div className="flex min-h-screen items-center justify-center font-body">
@@ -63,6 +79,7 @@ console.log("profileee", profile.vehicles)
                       year: vehicle.year ?? undefined,
                       miles: vehicle.miles ?? undefined,
                     }}
+                    mpg={mpgByVehicleId.get(vehicle.id) ?? null}
                     profileId={profile.id}
                   />
                 </li>

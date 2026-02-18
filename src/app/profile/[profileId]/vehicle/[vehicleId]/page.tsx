@@ -1,5 +1,6 @@
 import { getProfileForCurrentUser, getVehicleIfOwnedByCurrentUser } from "@/src/lib/profile";
 import { prisma } from "@/src/lib/db";
+import { calcMpg } from "@/src/lib/mpg";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { RefuelCard } from "@/src/components/RefuelCard";
@@ -38,20 +39,8 @@ export default async function VehiclePage({
     orderBy: { date: "desc" },
   });
 
-  // Overall lifetime MPG: total miles driven / total gallons across all refuels
-  let overallMpg: string | null = null;
-  if (refuels.length >= 2) {
-    const newest = refuels[0];
-    const oldest = refuels[refuels.length - 1];
-    const totalMiles = newest.miles - oldest.miles;
-    // Sum gallons for all refuels except the oldest (it filled the tank but we don't know miles driven on it)
-    const totalGallons = refuels
-      .slice(0, -1)
-      .reduce((sum, r) => sum + r.gallons.toNumber(), 0);
-    if (totalGallons > 0) {
-      overallMpg = (totalMiles / totalGallons).toFixed(1);
-    }
-  }
+  // calcMpg expects asc order; refuels are fetched desc, so reverse a copy
+  const overallMpg = calcMpg([...refuels].reverse());
 
   return (
     <div className="flex min-h-screen items-center justify-center font-body">

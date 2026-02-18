@@ -10,10 +10,11 @@ type VehicleCardProps = {
     year?: number | null
     miles?: number | null
   }
+  mpg?: string | null
   profileId: number
 }
 
-export function VehicleCard({ vehicle, profileId }: VehicleCardProps) {
+export function VehicleCard({ vehicle, mpg, profileId }: VehicleCardProps) {
   const nickname = vehicle.name ?? "Unnamed"
   const makeModel = [vehicle.make, vehicle.model].filter(Boolean).join(" - ") || "—"
   const milesDisplay =
@@ -27,7 +28,7 @@ export function VehicleCard({ vehicle, profileId }: VehicleCardProps) {
             </div>
             <div className="flex justify-between gap-2">
               <div className="flex-col">
-                <p className="text-left font-extrabold">MPG: xx.x</p>
+                <p className="text-left font-extrabold">MPG: {mpg ?? "—"}</p>
                 <p className="text-left font-extrabold">Miles: {milesDisplay}</p>
                 </div>
                 <div className="card-actions justify-end">
