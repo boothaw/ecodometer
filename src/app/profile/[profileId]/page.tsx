@@ -54,9 +54,9 @@ export default async function Profile({
   }
   
   return (
-    <div className="flex min-h-screen items-center justify-center font-body">
-      <main className="flex min-h-screen max-w-3xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
-        <div className="flex flex-col items-center justify-center mx-auto gap-6 text-center">
+    <div className="flex items-center justify-center font-body">
+      <main className="flex md:max-w-xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
+        <div className="flex w-full flex-col items-center justify-center mx-auto gap-6 text-center">
           <h1 className="max-w-xs text-3xl font-semibold text-navy font-display">
             {displayName}
           </h1>

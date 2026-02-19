@@ -44,9 +44,9 @@ export default async function NewVehiclePage({
   const currentYearPlusOne = new Date().getFullYear() + 1;
 
   return (
-    <div className="flex min-h-screen items-center justify-center font-body">
-      <main className="flex min-h-screen max-w-3xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
-        <div className="card-body card bg-white flex flex-col mx-auto gap-6 text-center sm:text-left w-full max-w-md">
+    <div className="flex items-center justify-center font-body">
+      <main className="flex md:max-w-xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
+        <div className="card-body card bg-white flex flex-col mx-auto gap-6 text-center sm:text-left w-full">
           <h1 className="text-3xl font-semibold text-navy font-display card-title">
             New Vehicle
           </h1>

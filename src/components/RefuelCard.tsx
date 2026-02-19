@@ -27,7 +27,7 @@ export function RefuelCard({ refuel, prevMiles, profileId }: RefuelCardProps) {
   });
 
   return (
-    <div className="card card-border w-100 max-w-2xl bg-white">
+    <div className="card card-border w-full bg-white">
         <div className="card-body">
             <div className="card-title justify-between gap-6 items-center">
                 <h3 className="text-2xl text-left">{mpg ?? "--"} <span className="text-sm font-body font-bold">MPG</span></h3>

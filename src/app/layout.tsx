@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <ClerkProvider signInFallbackRedirectUrl="/profile" signUpFallbackRedirectUrl="/profile">
       <html lang="en" className={`${racingSansOne.variable} ${overpass.variable}`}>
-        <body className="antialiased">
+        <body className="antialiased min-h-screen">
           <Nav />
           {children}
         </body>

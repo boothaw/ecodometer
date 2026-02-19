@@ -20,7 +20,7 @@ export function VehicleCard({ vehicle, mpg, profileId }: VehicleCardProps) {
   const milesDisplay =
     vehicle.miles != null ? vehicle.miles.toLocaleString() : "—"
   return (
-    <div className="card card-border w-100 max-w-2xl bg-white">
+    <div className="card card-border w-full bg-white">
         <div className="card-body gap-2">
             <div className="card-title justify-between gap-6">
                 <h2 className="text-2xl text-left">{nickname}</h2>

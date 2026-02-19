@@ -22,7 +22,7 @@ export default function RefuelForm({ vehicle, profileId }: RefuelFormProps) {
 
   return (
     <div className="flex items-center justify-center font-body w-full mt-4">
-      <div className="card-body card bg-white flex flex-col mx-auto gap-6 text-center sm:text-left w-full max-w-md">
+      <div className="card-body card bg-white flex flex-col mx-auto gap-6 text-center sm:text-left w-full">
         <h3 className="text-lg font-semibold text-navy font-display card-title">
           Fill Er&apos; Up
         </h3>
