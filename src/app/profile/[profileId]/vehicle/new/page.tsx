@@ -109,7 +109,7 @@ export default async function NewVehiclePage({
               <button type="submit" className="btn btn-primary">
                 Add vehicle
               </button>
-              <Link href={`/profile/${profile.id}`} className="btn btn-ghost">
+              <Link href={`/profile/${profile.id}`} className="btn btn-secondary">
                 Cancel
               </Link>
             </div>

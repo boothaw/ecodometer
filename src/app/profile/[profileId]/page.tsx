@@ -34,7 +34,7 @@ export default async function Profile({
 
   const displayName =
     profile.name ||
-    (myProfile.id === profile.id ? "My profile" : undefined) ||
+    (myProfile.id === profile.id ? "My Profile" : undefined) ||
     "Profile";
 
   // Fetch all refuels for this profile's vehicles in one query (asc for calcMpg)
@@ -64,7 +64,7 @@ export default async function Profile({
           {profile.vehicles.length === 0 ? (
             <>
             <p className="text-base-content/80">No vehicles yet.</p>
-            <Link href={`/profile/${profile.id}/vehicle/new`}>Add New Vehicle</Link>
+            <Link className="btn btn-primary" href={`/profile/${profile.id}/vehicle/new`}>Add New Vehicle</Link>
             </>
           ) : (
             <ul className="flex flex-col gap-4 w-full">
@@ -88,7 +88,7 @@ export default async function Profile({
           )}
             <div className="flex gap-2">
             <Link
-              className="btn"
+              className="btn btn-primary"
               href={`/profile/${profileId}/vehicle/new`}
             >
               New Vehicle

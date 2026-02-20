@@ -49,6 +49,25 @@ body {
 
 /* generic */
 
+.linked-logo {
+  /* border-radius: var(--radius-box); */
+  transition: 0.3s all ease-in-out;
+  overflow: hidden;
+
+  & span {
+    transition: 0.3s all ease-in-out;
+    transform: translateX(0);
+  }
+
+  &:hover {
+    color: var(--yellow) !important;
+
+    & span {
+      transform: translateX(-20px);
+    }
+  }
+}
+
 h1,
 h2,
 h3,
@@ -62,23 +81,58 @@ h5 {
   color: var(--navy);
 }
 
+& svg {
+  transition: all ease-in-out 0.3s;
+}
+
 .btn {
   /* color: var(--navy); */
+  padding: 5px 10px;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border-radius: var(--radius-box);
+  text-transform: capitalize;
+  font-style: italic;
 
   & svg {
-    width: 20px;
+    width: 24px;
   }
 }
 
-.btn-primary {
+.btn.btn-primary {
   background-color: var(--navy);
   color: var(--white);
   outline: 0;
   border: 0;
-  box-shadow: 0;
+  box-shadow: none;
+  transition: all ease-in-out 0.3s;
+  border: 6px double var(--navy);
 
   &:hover {
     background-color: var(--orange);
+    border: 6px double var(--orange);
+  }
+}
+
+.btn.btn-secondary {
+  background-color: #fff;
+  color: var(--navy);
+  outline: 0;
+  border: 0;
+  box-shadow: none;
+  transition: all ease-in-out 0.3s;
+  border: 6px double #fff;
+
+  &:hover {
+    /* background-color: var(--yellow); */
+    border-color: var(--yellow);
+
+    & svg {
+      fill: var(--navy);
+    }
   }
 }
 
@@ -99,6 +153,7 @@ h5 {
 
 .card {
   background-color: #fff;
+  border: none;
 }
 
 .card-body {

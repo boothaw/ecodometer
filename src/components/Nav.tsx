@@ -16,7 +16,7 @@ export default async function Nav() {
     <div className="navbar bg-white shadow-sm">
       <div className="navbar-start">
         <SignedOut>
-          <Link href={"/login"}>
+          <Link className="btn btn-secondary" href={"/login"}>
           <svg
           className="w-6 h-6 text-gray-700"
             viewBox="0 1959 24 20" width="48" height="48"
@@ -35,29 +35,53 @@ export default async function Nav() {
         </SignedIn>
       </div>
       <div className="navbar-center">
-        <a href="/" className="btn btn-ghost text-xl font-display">
+        <a href="/" className="text-xl font-display linked-logo">
           <span className="text-yellow">=</span> ECOdometer <span className="text-yellow">=</span>
         </a>
       </div>
       <div className="navbar-end">
             {profileId ? (
-                <Link className="btn" href={`/profile/${profileId}`}>
-                <svg
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="#7587a0"
-                >
-                  <path d="m19.616 6.48.014-.017-4-3.24-1.26 1.554 2.067 1.674a2.99 2.99 0 0 0-1.394 3.062c.15.899.769 1.676 1.57 2.111.895.487 1.68.442 2.378.194L18.976 18a.996.996 0 0 1-1.39.922.995.995 0 0 1-.318-.217.996.996 0 0 1-.291-.705L17 16a2.98 2.98 0 0 0-.877-2.119A3 3 0 0 0 14 13h-1V5a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2v-4h1c.136 0 .267.027.391.078a1.028 1.028 0 0 1 .531.533A.994.994 0 0 1 15 16l-.024 2c0 .406.079.799.236 1.168.151.359.368.68.641.951a2.97 2.97 0 0 0 2.123.881c.406 0 .798-.078 1.168-.236.358-.15.68-.367.951-.641A2.983 2.983 0 0 0 20.976 18L21 9a2.997 2.997 0 0 0-1.384-2.52zM11 8H4V5h7v3zm7 2a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
-                </svg>
+                <Link className="btn btn-secondary" href={`/profile/${profileId}`}>
+                    <svg
+                      version="1.0"
+                      id="Layer_1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                      width="800px"
+                      height="800px"
+                      viewBox="0 0 64 64"
+                      enableBackground="new 0 0 64 64"
+                      xmlSpace="preserve"
+                    >
+                      <path
+                        fill="#7587a0"
+                        d="M60,28c0-8.301-5.016-24-24-24h-8C9.016,4,4,19.699,4,28c-2.211,0-4,1.789-4,4v16c0,2.211,1.789,4,4,4h4v4
+                        c0,2.211,1.789,4,4,4h4c2.211,0,4-1.789,4-4v-4h24v4c0,2.211,1.789,4,4,4h4c2.211,0,4-1.789,4-4v-4h4c2.211,0,4-1.789,4-4V32
+                        C64,29.789,62.211,28,60,28z M16,44c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S18.211,44,16,44z M12,28c0-0.652,0.184-16,16-16
+                        h8c15.41,0,15.984,14.379,16,16H12z M48,44c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S50.211,44,48,44z"
+                      />
+                    </svg>
                 </Link>
             ) : (
-                <Link className="btn" href="/login">
-                   <svg
-                    viewBox="0 0 24 24"
+                <Link className="btn btn-secondary" href="/login">
+                    <svg
+                    version="1.0"
+                    id="Layer_1"
                     xmlns="http://www.w3.org/2000/svg"
-                    fill="#7587a0"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    width="800px"
+                    height="800px"
+                    viewBox="0 0 64 64"
+                    enableBackground="new 0 0 64 64"
+                    xmlSpace="preserve"
                   >
-                    <path d="m19.616 6.48.014-.017-4-3.24-1.26 1.554 2.067 1.674a2.99 2.99 0 0 0-1.394 3.062c.15.899.769 1.676 1.57 2.111.895.487 1.68.442 2.378.194L18.976 18a.996.996 0 0 1-1.39.922.995.995 0 0 1-.318-.217.996.996 0 0 1-.291-.705L17 16a2.98 2.98 0 0 0-.877-2.119A3 3 0 0 0 14 13h-1V5a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2v-4h1c.136 0 .267.027.391.078a1.028 1.028 0 0 1 .531.533A.994.994 0 0 1 15 16l-.024 2c0 .406.079.799.236 1.168.151.359.368.68.641.951a2.97 2.97 0 0 0 2.123.881c.406 0 .798-.078 1.168-.236.358-.15.68-.367.951-.641A2.983 2.983 0 0 0 20.976 18L21 9a2.997 2.997 0 0 0-1.384-2.52zM11 8H4V5h7v3zm7 2a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                    <path
+                      fill="#7587a0"
+                      d="M60,28c0-8.301-5.016-24-24-24h-8C9.016,4,4,19.699,4,28c-2.211,0-4,1.789-4,4v16c0,2.211,1.789,4,4,4h4v4
+                      c0,2.211,1.789,4,4,4h4c2.211,0,4-1.789,4-4v-4h24v4c0,2.211,1.789,4,4,4h4c2.211,0,4-1.789,4-4v-4h4c2.211,0,4-1.789,4-4V32
+                      C64,29.789,62.211,28,60,28z M16,44c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S18.211,44,16,44z M12,28c0-0.652,0.184-16,16-16
+                      h8c15.41,0,15.984,14.379,16,16H12z M48,44c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S50.211,44,48,44z"
+                    />
                   </svg>
                 </Link>
             )}
