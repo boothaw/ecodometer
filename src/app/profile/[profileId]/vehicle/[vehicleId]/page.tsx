@@ -5,6 +5,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { RefuelCard } from "@/src/components/RefuelCard";
 import RefuelForm from "@/src/components/RefuelForm";
+import { SkeletonList, Skeleton, SkeletonButton, SkeletonTitle } from "@/src/components/Skeleton";
+
 
 export default async function VehiclePage({
   params,
@@ -43,6 +45,7 @@ export default async function VehiclePage({
   const overallMpg = calcMpg([...refuels].reverse());
 
   return (
+    <>
     <div className="flex items-center justify-center font-body">
       <main className="flex md:max-w-xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
         <div className="mx-auto w-full flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
@@ -99,5 +102,6 @@ export default async function VehiclePage({
         </div>
       </main>
     </div>
+    </>
   );
 }

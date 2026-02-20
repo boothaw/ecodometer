@@ -4,29 +4,51 @@ export function Skeleton({
   short,
   inline,
   white,
+  small,
 }: {
   short?: boolean
   inline?: boolean
   white?: boolean
+  small?: boolean
 }) {
   return (
     <div
       className="skeleton"
       style={{
-        width: short ? "8em" : undefined,
+        width: short ? "6em" : undefined,
         display: inline ? "inline-block" : undefined,
-        backgroundColor: white ? "#fff" : undefined,
+        background: white ? "#fff !important" : undefined,
+        height: small ? ".75em" : undefined,
       }}
     />
   )
 }
 
-export function SkeletonButton() {
-  return <div className="skeleton skeleton-btn" />
+export function SkeletonButton({
+  white,
+}: {
+  white?: boolean
+}) {
+  return <div style={{
+        background: white ? "#fff" : undefined,
+      }} className="skeleton skeleton-btn" />
 }
 
 export function SkeletonInput() {
   return <div className="skeleton skeleton-input" />
+}
+
+export function SkeletonTitle({
+  white,
+  gray,
+}: {
+  white?: boolean
+  gray?: boolean
+}) {
+  return <div style={{
+        background: white ? "#fff" : undefined,
+        backgroundColor: gray ? "#c8ccc133" : undefined,
+      }} className="skeleton skeleton-title" />
 }
 
 export function SkeletonList({

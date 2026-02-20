@@ -4,7 +4,7 @@ import { prisma } from "@/src/lib/db";
 import { calcMpg } from "@/src/lib/mpg";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { SkeletonList, Skeleton, SkeletonButton } from "@/src/components/Skeleton";
+import { SkeletonList, Skeleton, SkeletonButton, SkeletonTitle } from "@/src/components/Skeleton";
 
 
 export default async function Profile({
@@ -57,81 +57,48 @@ export default async function Profile({
   
   return (
     <div className="flex items-center justify-center font-body">
-          <main className="flex md:max-w-xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
-            <div className="flex w-full flex-col items-center justify-center mx-auto gap-6 text-center">
-                  <h1 className="max-w-xs text-3xl font-semibold text-navy font-display">
-                        <Skeleton white  />
-                  </h1>
-    
-                    <SkeletonList amount={2}>
-                      <div className="card w-full bg-white">
-                        <div className="card-body">
-                          <div className="card-title skeleton-title justify-between gap-2 pb-2 flex-col md:flex-row md:gap-6">
-                              <Skeleton white /> <Skeleton />
-                          </div>
-                          <div className="flex justify-between gap-2">
-                            <div className="flex flex-col gap-2">
-                                  <Skeleton short />
-                                <Skeleton short />
-                            </div>
-                            <div className="card-actions justify-end">
-                              <SkeletonButton />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </SkeletonList>
-             
-                <div className="flex gap-2">
-    
-                    <SkeletonButton />
-                </div>
-            </div>
-          </main>
-        </div>
-    // <div className="flex items-center justify-center font-body">
-    //   <main className="flex md:max-w-xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
-    //     <div className="flex w-full flex-col items-center justify-center mx-auto gap-6 text-center">
-    //           <h1 className="max-w-xs text-3xl font-semibold text-navy font-display">
-    //               {displayName}
-    //           </h1>
+      <main className="flex md:max-w-xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
+        <div className="flex w-full flex-col items-center justify-center mx-auto gap-6 text-center">
+              <h1 className="max-w-xs text-3xl font-semibold text-navy font-display">
+                  {displayName}
+              </h1>
 
-    //             {profile.vehicles.length === 0 ? (
-    //               <>
-    //               <p className="text-base-content/80">No vehicles yet.</p>
-    //               <Link className="btn btn-primary" href={`/profile/${profile.id}/vehicle/new`}>Add New Vehicle</Link>
-    //               </>
-    //             ) : (
-    //               <ul className="flex flex-col gap-4 w-full">
+                {profile.vehicles.length === 0 ? (
+                  <>
+                  <p className="text-base-content/80">No vehicles yet.</p>
+                  <Link className="btn btn-primary" href={`/profile/${profile.id}/vehicle/new`}>Add New Vehicle</Link>
+                  </>
+                ) : (
+                  <ul className="flex flex-col gap-4 w-full">
         
-    //                   {profile.vehicles.map((vehicle) => (
-    //                   <li key={vehicle.id}>
-    //                     <VehicleCard
-    //                       vehicle={{
-    //                         id: vehicle.id,
-    //                         name: vehicle.name,
-    //                         make: vehicle.make,
-    //                         model: vehicle.model,
-    //                         year: vehicle.year ?? undefined,
-    //                         miles: vehicle.miles ?? undefined,
-    //                       }}
-    //                       mpg={mpgByVehicleId.get(vehicle.id) ?? null}
-    //                       profileId={profile.id}
-    //                     />
-    //                   </li>
-    //                 ))}
-    //               </ul>
-    //             )}
-    //         <div className="flex gap-2">
-    //         <Link
-    //           className="btn btn-primary"
-    //           href={`/profile/${profileId}/vehicle/new`}
-    //         >
-    //           New Vehicle
-    //         </Link>
-    //       </div>
-    //     </div>
-    //   </main>
-    // </div>
+                      {profile.vehicles.map((vehicle) => (
+                      <li key={vehicle.id}>
+                        <VehicleCard
+                          vehicle={{
+                            id: vehicle.id,
+                            name: vehicle.name,
+                            make: vehicle.make,
+                            model: vehicle.model,
+                            year: vehicle.year ?? undefined,
+                            miles: vehicle.miles ?? undefined,
+                          }}
+                          mpg={mpgByVehicleId.get(vehicle.id) ?? null}
+                          profileId={profile.id}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+            <div className="flex gap-2">
+            <Link
+              className="btn btn-primary"
+              href={`/profile/${profileId}/vehicle/new`}
+            >
+              New Vehicle
+            </Link>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }

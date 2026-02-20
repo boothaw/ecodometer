@@ -15,6 +15,8 @@
   --orange: #ca4500;
   --blue: #7587a0;
   --yellow: #c8990a;
+  --yellow-opacity: #c8990a33;
+  --whiteish-opacity: #c8ccc133;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -263,11 +265,19 @@ h5 {
 /* skeleton */
 
 .skeleton {
-  background: var(--white);
+  background: linear-gradient(
+    to bottom right,
+    var(--whiteish-opacity),
+    var(--yellow-opacity)
+  );
   border-radius: var(--radius-box);
   height: 1.5em;
   width: 100%;
-  animation: skeleton 1s infinite alternate ease-in-out;
+  animation: skeleton 1.5s infinite alternate ease-in-out;
+}
+
+.skeleton.skeleton-title {
+  background: #fff;
 }
 
 .skeleton:not(.skeleton-btn) + .skeleton:not(.skeleton-btn):last-child {
