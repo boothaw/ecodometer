@@ -296,7 +296,14 @@ h5 {
 
 .skeleton-input {
   height: 2.25em;
-  border: 2px solid black;
+  border: 2px solid var(--white);
+}
+
+.skeleton-form {
+  .skeleton {
+    background-color: var(--white);
+    background: var(--white);
+  }
 }
 
 @keyframes skeleton {

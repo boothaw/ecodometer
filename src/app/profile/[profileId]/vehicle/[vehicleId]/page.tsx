@@ -5,7 +5,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { RefuelCard } from "@/src/components/RefuelCard";
 import RefuelForm from "@/src/components/RefuelForm";
-import { SkeletonList, Skeleton, SkeletonButton, SkeletonTitle } from "@/src/components/Skeleton";
 
 
 export default async function VehiclePage({

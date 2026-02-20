@@ -41,13 +41,16 @@ export function SkeletonInput() {
 export function SkeletonTitle({
   white,
   gray,
+  short,
 }: {
   white?: boolean
   gray?: boolean
+  short?: boolean
 }) {
   return <div style={{
         background: white ? "#fff" : undefined,
         backgroundColor: gray ? "#c8ccc133" : undefined,
+        width: short ? "6em" : undefined,
       }} className="skeleton skeleton-title" />
 }
 

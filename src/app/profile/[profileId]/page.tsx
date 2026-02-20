@@ -4,7 +4,6 @@ import { prisma } from "@/src/lib/db";
 import { calcMpg } from "@/src/lib/mpg";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { SkeletonList, Skeleton, SkeletonButton, SkeletonTitle } from "@/src/components/Skeleton";
 
 
 export default async function Profile({
