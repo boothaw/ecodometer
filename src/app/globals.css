@@ -205,6 +205,10 @@ h5 {
   }
 }
 
+.card-title.skeleton-title {
+  border-bottom: 6px double var(--blue);
+}
+
 .card-title.car-title {
   border-bottom: 0px;
 }
@@ -254,4 +258,42 @@ h5 {
   100% {
     transform: translateY(0) skewX(0deg) scale(1);
   } */
+}
+
+/* skeleton */
+
+.skeleton {
+  background: var(--white);
+  border-radius: var(--radius-box);
+  height: 1.5em;
+  width: 100%;
+  animation: skeleton 1s infinite alternate ease-in-out;
+}
+
+.skeleton:not(.skeleton-btn) + .skeleton:not(.skeleton-btn):last-child {
+  /* width: 75%; */
+}
+
+.skeleton:not(.skeleton-btn) + .skeleton:not(.skeleton-btn) {
+  /* margin-top: 0.5rem; */
+  width: 100%;
+}
+
+.skeleton-btn {
+  height: 2.5em;
+  width: 5em;
+}
+
+.skeleton-input {
+  height: 2.25em;
+  border: 2px solid black;
+}
+
+@keyframes skeleton {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
 }

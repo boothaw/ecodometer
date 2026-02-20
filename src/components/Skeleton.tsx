@@ -3,16 +3,19 @@ import { Fragment, ReactNode } from "react"
 export function Skeleton({
   short,
   inline,
+  white,
 }: {
   short?: boolean
   inline?: boolean
+  white?: boolean
 }) {
   return (
     <div
       className="skeleton"
       style={{
-        width: short ? "15em" : undefined,
+        width: short ? "8em" : undefined,
         display: inline ? "inline-block" : undefined,
+        backgroundColor: white ? "#fff" : undefined,
       }}
     />
   )

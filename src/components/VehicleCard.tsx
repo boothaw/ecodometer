@@ -22,9 +22,9 @@ export function VehicleCard({ vehicle, mpg, profileId }: VehicleCardProps) {
   return (
     <div className="card card-border w-full bg-white">
         <div className="card-body gap-2">
-            <div className="card-title justify-between gap-6">
-                <h2 className="text-2xl text-left">{nickname}</h2>
-                <p className="text-right font-extrabold text-sm">{makeModel}</p>
+            <div className="card-title justify-between gap-2 pb-2 flex-col md:flex-row md:gap-6">
+                <h2 className="text-center text-2xl md:w-3/5 md:text-left">{nickname}</h2>
+                <p className="text-center font-extrabold text-sm md:w-2/5 md:text-right">{makeModel}</p>
             </div>
             <div className="flex justify-between gap-2">
               <div className="flex-col">
