@@ -51,19 +51,40 @@ body {
 
 .linked-logo {
   /* border-radius: var(--radius-box); */
+  padding: 0 10px;
   transition: 0.3s all ease-in-out;
-  overflow: hidden;
+  position: relative;
+  display: inline-block;
+  overflow: hidden; /* keeps animation clipped inside text height */
 
-  & span {
-    transition: 0.3s all ease-in-out;
-    transform: translateX(0);
+  .text-yellow {
+    display: inline-block;
+    position: relative;
+    transform-origin: center;
+    will-change: transform, opacity;
+  }
+
+  .eco {
+    /* background-color: var(--white); */
+    z-index: 2;
+    position: relative;
+    /* text-shadow: 2px 2px 2px var(--white); */
+    display: inline-block;
   }
 
   &:hover {
     color: var(--yellow) !important;
 
-    & span {
-      transform: translateX(-20px);
+    .text-yellow {
+      animation: driveRight 1s linear infinite;
+    }
+    .text-yellow:last-of-type {
+      animation-delay: 0.3s;
+      animation: driveRight 1s linear infinite;
+    }
+    .eco {
+      /* animation: ecoTakeoff 1.6s ease-in-out infinite; */
+      /* transform-origin: left center; */
     }
   }
 }
@@ -99,6 +120,11 @@ h5 {
 
   & svg {
     width: 24px;
+    transition: all ease-in-out 0.3s;
+
+    & path {
+      transition: all ease-in-out 0.3s;
+    }
   }
 }
 
@@ -132,6 +158,10 @@ h5 {
 
     & svg {
       fill: var(--navy);
+
+      & path {
+        fill: var(--navy);
+      }
     }
   }
 }
@@ -183,4 +213,45 @@ h5 {
   input {
     background-color: var(--white);
   }
+}
+
+/* animations */
+
+/* animation keyframes */
+@keyframes driveRight {
+  0% {
+    transform: translateX(0) scale(0.9);
+    opacity: 0.75;
+  }
+
+  50% {
+    transform: translateX(50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(100%) scale(0.85);
+    opacity: 0;
+  }
+}
+@keyframes ecoTakeoff {
+  /* 0% {
+    transform: translateY(0) skewX(0deg) scale(1);
+  }
+
+  20% {
+    transform: translateY(-2px) skewX(-6deg) scale(1.03);
+  }
+
+  35% {
+    transform: translateY(-3px) skewX(-8deg) scale(1.05);
+  }
+
+  55% {
+    transform: translateY(-1px) skewX(-3deg) scale(1.02);
+  }
+
+  100% {
+    transform: translateY(0) skewX(0deg) scale(1);
+  } */
 }
