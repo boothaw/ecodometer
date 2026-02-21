@@ -5,6 +5,7 @@ import { calcMpg } from "@/src/lib/mpg";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
+
 export default async function Profile({
   params,
 }: {
@@ -12,7 +13,13 @@ export default async function Profile({
 }) {
   const { profileId } = await params;
 
-  const myProfile = await getProfileForCurrentUser();
+  let myProfile;
+  try {
+    myProfile = await getProfileForCurrentUser();
+  } catch (e) {
+    if (e instanceof Error && e.message === "Unauthorized") redirect("/login");
+    throw e;
+  }
 
   if (profileId === "me") {
     redirect(`/profile/${myProfile.id}`);
@@ -34,7 +41,7 @@ export default async function Profile({
 
   const displayName =
     profile.name ||
-    (myProfile.id === profile.id ? "My profile" : undefined) ||
+    (myProfile.id === profile.id ? "My Profile" : undefined) ||
     "Profile";
 
   // Fetch all refuels for this profile's vehicles in one query (asc for calcMpg)
@@ -54,41 +61,42 @@ export default async function Profile({
   }
   
   return (
-    <div className="flex min-h-screen items-center justify-center font-body">
-      <main className="flex min-h-screen max-w-3xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
-        <div className="flex flex-col items-center justify-center mx-auto gap-6 text-center">
-          <h1 className="max-w-xs text-3xl font-semibold text-navy font-display">
-            {displayName}
-          </h1>
+    <div className="min-h-screen flex items-center justify-center font-body">
+      <main className="min-h-screen flex md:max-w-xl flex-col items-center justify-between py-8 px-0 mx-auto w-[90%] sm:items-start">
+        <div className="flex w-full flex-col items-center justify-center mx-auto gap-6 text-center">
+              <h1 className="animate-fade-in-right max-w-xs text-3xl font-semibold text-navy font-display">
+                  {displayName}
+              </h1>
 
-          {profile.vehicles.length === 0 ? (
-            <>
-            <p className="text-base-content/80">No vehicles yet.</p>
-            <Link href={`/profile/${profile.id}/vehicle/new`}>Add New Vehicle</Link>
-            </>
-          ) : (
-            <ul className="flex flex-col gap-4 w-full">
-              {profile.vehicles.map((vehicle) => (
-                <li key={vehicle.id}>
-                  <VehicleCard
-                    vehicle={{
-                      id: vehicle.id,
-                      name: vehicle.name,
-                      make: vehicle.make,
-                      model: vehicle.model,
-                      year: vehicle.year ?? undefined,
-                      miles: vehicle.miles ?? undefined,
-                    }}
-                    mpg={mpgByVehicleId.get(vehicle.id) ?? null}
-                    profileId={profile.id}
-                  />
-                </li>
-              ))}
-            </ul>
-          )}
+                {profile.vehicles.length === 0 ? (
+                  <>
+                  <p className="text-base-content/80">No vehicles yet.</p>
+                  <Link className="btn btn-primary" href={`/profile/${profile.id}/vehicle/new`}>Add New Vehicle</Link>
+                  </>
+                ) : (
+                  <ul className="flex flex-col gap-4 w-full">
+        
+                      {profile.vehicles.map((vehicle) => (
+                      <li key={vehicle.id}>
+                        <VehicleCard
+                          vehicle={{
+                            id: vehicle.id,
+                            name: vehicle.name,
+                            make: vehicle.make,
+                            model: vehicle.model,
+                            year: vehicle.year ?? undefined,
+                            miles: vehicle.miles ?? undefined,
+                          }}
+                          mpg={mpgByVehicleId.get(vehicle.id) ?? null}
+                          profileId={profile.id}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )}
             <div className="flex gap-2">
             <Link
-              className="btn"
+              className="btn btn-primary"
               href={`/profile/${profileId}/vehicle/new`}
             >
               New Vehicle

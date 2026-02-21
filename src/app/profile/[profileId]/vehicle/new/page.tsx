@@ -4,12 +4,19 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 
+
 export default async function NewVehiclePage({
   params,
 }: {
   params: Promise<{ profileId: string }>;
 }) {
-  const profile = await getProfileForCurrentUser();
+  let profile;
+  try {
+    profile = await getProfileForCurrentUser();
+  } catch (e) {
+    if (e instanceof Error && e.message === "Unauthorized") redirect("/login");
+    throw e;
+  }
   const profileIdNum = Number((await params).profileId);
 
   if (profileIdNum !== profile.id) {
@@ -44,15 +51,15 @@ export default async function NewVehiclePage({
   const currentYearPlusOne = new Date().getFullYear() + 1;
 
   return (
-    <div className="flex min-h-screen items-center justify-center font-body">
-      <main className="flex min-h-screen max-w-3xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
-        <div className="card-body card bg-white flex flex-col mx-auto gap-6 text-center sm:text-left w-full max-w-md">
+    <div className="flex items-center justify-center font-body">
+      <main className="flex md:max-w-xl flex-col items-center justify-between py-8 px-0 mx-auto w-[90%] sm:items-start">
+        <div className="card-body card bg-white flex flex-col mx-auto gap-6 text-center sm:text-left w-full">
           <h1 className="text-3xl font-semibold text-navy font-display card-title">
-            New Vehicle
+            <span className="animate-fade-in-right">New Vehicle</span>
           </h1>
           <form action={createVehicle} className="flex flex-col gap-3 form">
-            <label className="form-control w-full">
-              <span className="label-text">Nickname</span>
+            <label className="form-control w-full text-left">
+              <span className="label-text text-left">Nickname</span>
               <input
                 type="text"
                 name="name"
@@ -61,8 +68,8 @@ export default async function NewVehiclePage({
                 className="input input-bordered w-full"
               />
             </label>
-            <label className="form-control w-full">
-              <span className="label-text">Make</span>
+            <label className="form-control w-full text-left">
+              <span className="label-text text-left text-left">Make</span>
               <input
                 type="text"
                 name="make"
@@ -71,8 +78,8 @@ export default async function NewVehiclePage({
                 className="input input-bordered w-full"
               />
             </label>
-            <label className="form-control w-full">
-              <span className="label-text">Model</span>
+            <label className="form-control w-full text-left">
+              <span className="label-text text-left">Model</span>
               <input
                 type="text"
                 name="model"
@@ -81,8 +88,8 @@ export default async function NewVehiclePage({
                 className="input input-bordered w-full"
               />
             </label>
-            <label className="form-control w-full">
-              <span className="label-text">Year</span>
+            <label className="form-control w-full text-left">
+              <span className="label-text text-left">Year</span>
               <input
                 type="number"
                 name="year"
@@ -93,8 +100,8 @@ export default async function NewVehiclePage({
                 className="input input-bordered w-full"
               />
             </label>
-            <label className="form-control w-full">
-              <span className="label-text">Total Miles</span>
+            <label className="form-control w-full text-left">
+              <span className="label-text text-left">Total Miles</span>
               <input
                 type="number"
                 name="miles"
@@ -109,7 +116,7 @@ export default async function NewVehiclePage({
               <button type="submit" className="btn btn-primary">
                 Add vehicle
               </button>
-              <Link href={`/profile/${profile.id}`} className="btn btn-ghost">
+              <Link href={`/profile/${profile.id}`} className="btn btn-secondary">
                 Cancel
               </Link>
             </div>

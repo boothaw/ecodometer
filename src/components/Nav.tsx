@@ -1,6 +1,25 @@
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { getProfileForCurrentUser } from "@/src/lib/profile";
+import { SkeletonButton } from "@/src/components/Skeleton";
+
+export function NavSkeleton() {
+  return (
+    <div className="navbar bg-white shadow-sm">
+      <div className="navbar-start">
+        <SkeletonButton white short />
+      </div>
+      <div className="navbar-center">
+        <a href="/" className="text-xl font-display linked-logo">
+          <span className="text-yellow">=</span> <span className="eco">ECOdometer</span> <span className="text-yellow">=</span>
+        </a>
+      </div>
+      <div className="navbar-end">
+        <SkeletonButton white short />
+      </div>
+    </div>
+  );
+}
 
 export default async function Nav() {
   // Get profile for signed-in users (will be null if not signed in)
@@ -16,52 +35,99 @@ export default async function Nav() {
     <div className="navbar bg-white shadow-sm">
       <div className="navbar-start">
         <SignedOut>
-          <Link href={"/login"}>Login or Signup</Link>
+          <Link className="btn btn-secondary" href={"/login"}>
+          <svg
+          className="w-6 h-6 text-gray-700"
+            viewBox="0 1959 24 20" width="48" height="48"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill="#7587a0"
+              fillRule="evenodd"
+              d="M20.0382507,1959 C20.0352403,1959 20.0322298,1959.002 20.0292194,1959.002 C20.0262089,1959.002 20.024202,1959 20.0211915,1959 L20.0382507,1959 Z M24,1963 C24,1963.552 23.5504398,1964 22.9965174,1964 L21.0587925,1964 L21.0587925,1966 C21.0587925,1966.552 20.5921731,1967 20.0382507,1967 L20.0211915,1967 C19.4662657,1967 19.0518273,1966.552 19.0518273,1966 L19.0518273,1964 L16.9756219,1964 C16.4216995,1964 15.9721393,1963.552 15.9721393,1963 C15.9721393,1962.448 16.4216995,1962 16.9756219,1962 L19.0518273,1962 L19.0518273,1960 C19.0518273,1959.451 19.4793109,1959.007 20.0292194,1959.002 C20.5801313,1959.007 21.0587925,1959.451 21.0587925,1960 L21.0587925,1962 L22.9965174,1962 C23.5504398,1962 24,1962.448 24,1963 L24,1963 Z M12.0003552,1970.902 C11.9863064,1970.902 11.9722577,1970.9 11.9582089,1970.9 C11.9441601,1970.9 11.9301114,1970.902 11.9160626,1970.902 C10.829291,1970.879 9.95124372,1969.995 9.95124372,1968.906 C9.95124372,1967.803 10.8513676,1966.906 11.9582089,1966.906 C13.0650502,1966.906 13.9651741,1967.803 13.9651741,1968.906 C13.9651741,1969.995 13.0871268,1970.879 12.0003552,1970.902 Z M14.9947472,1971.495 C15.8266343,1970.527 16.2280273,1969.18 15.7965298,1967.724 C15.3981472,1966.38 14.2642119,1965.32 12.8924512,1965.011 C10.2693477,1964.422 7.94427854,1966.393 7.94427854,1968.906 C7.94427854,1969.899 8.32058451,1970.796 8.92167058,1971.495 C6.32967505,1972.55 4.41402678,1974.997 4.00962329,1977.867 C3.92533076,1978.466 4.40599892,1979 5.0121024,1979 C5.5078228,1979 5.92727853,1978.637 5.99752231,1978.147 C6.41095714,1975.24 8.90461138,1972.923 11.9160626,1972.902 C11.9301114,1972.902 11.9431567,1972.906 11.9582089,1972.906 C11.9722577,1972.906 11.9863064,1972.902 12.0003552,1972.902 C15.0118064,1972.923 17.5054607,1975.24 17.9188955,1978.148 C17.9881358,1978.637 18.4075915,1979 18.9043154,1979 C19.5104189,1979 19.991087,1978.466 19.9067945,1977.868 C19.502391,1974.998 17.5867428,1972.551 14.9947472,1971.495 Z"
+            />
+          </svg>
+          </Link>
         </SignedOut>
         <SignedIn>
           <UserButton />
         </SignedIn>
       </div>
       <div className="navbar-center">
-        <a href="/" className="btn btn-ghost text-xl font-display">
-          <span className="text-yellow">=</span> ECOdometer <span className="text-yellow">=</span>
+        <a href="/" className="text-xl font-display linked-logo">
+          <span className="text-yellow">=</span> <span className="eco">ECOdometer</span> <span className="text-yellow">=</span>
         </a>
       </div>
       <div className="navbar-end">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 hamburger"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h7"
-              />
-            </svg>
-          </div>
-          <ul
-            className="menu menu-sm dropdown-content right-0 bg-white rounded-box z-1 mt-3 w-52 p-2 border-2"
-          >
-            <li>
-              <a href="/">Homepage</a>
-            </li>
-            {profileId ? (
-              <li>
-                <Link href={`/profile/${profileId}`}>My Vehicles</Link>
-              </li>
-            ) : (
-              <li>
-                <a href="/login">Login</a>
-              </li>
-            )}
-          </ul>
-        </div>
+            <SignedIn>
+                {profileId ? (
+                <Link className="btn btn-secondary" href={`/profile/${profileId}`} prefetch={false}>
+                    <svg
+                      version="1.0"
+                      id="Layer_1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                      width="800px"
+                      height="800px"
+                      viewBox="0 0 64 64"
+                      enableBackground="new 0 0 64 64"
+                      xmlSpace="preserve"
+                    >
+                      <path
+                        fill="#7587a0"
+                        d="M60,28c0-8.301-5.016-24-24-24h-8C9.016,4,4,19.699,4,28c-2.211,0-4,1.789-4,4v16c0,2.211,1.789,4,4,4h4v4
+                        c0,2.211,1.789,4,4,4h4c2.211,0,4-1.789,4-4v-4h24v4c0,2.211,1.789,4,4,4h4c2.211,0,4-1.789,4-4v-4h4c2.211,0,4-1.789,4-4V32
+                        C64,29.789,62.211,28,60,28z M16,44c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S18.211,44,16,44z M12,28c0-0.652,0.184-16,16-16
+                        h8c15.41,0,15.984,14.379,16,16H12z M48,44c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S50.211,44,48,44z"
+                      />
+                    </svg>
+                </Link>
+                ) : (
+                <span className="btn btn-secondary">
+                    <svg
+                      version="1.0"
+                      id="Layer_1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                      width="800px"
+                      height="800px"
+                      viewBox="0 0 64 64"
+                      enableBackground="new 0 0 64 64"
+                      xmlSpace="preserve"
+                    >
+                      <path
+                        fill="#7587a0"
+                        d="M60,28c0-8.301-5.016-24-24-24h-8C9.016,4,4,19.699,4,28c-2.211,0-4,1.789-4,4v16c0,2.211,1.789,4,4,4h4v4
+                        c0,2.211,1.789,4,4,4h4c2.211,0,4-1.789,4-4v-4h24v4c0,2.211,1.789,4,4,4h4c2.211,0,4-1.789,4-4v-4h4c2.211,0,4-1.789,4-4V32
+                        C64,29.789,62.211,28,60,28z M16,44c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S18.211,44,16,44z M12,28c0-0.652,0.184-16,16-16
+                        h8c15.41,0,15.984,14.379,16,16H12z M48,44c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S50.211,44,48,44z"
+                      />
+                    </svg>
+                </span>
+                )}
+            </SignedIn>
+            <SignedOut>                
+              <Link className="btn btn-secondary" href="/login">
+                    <svg
+                    version="1.0"
+                    id="Layer_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    width="800px"
+                    height="800px"
+                    viewBox="0 0 64 64"
+                    enableBackground="new 0 0 64 64"
+                    xmlSpace="preserve"
+                  >
+                    <path
+                      fill="#7587a0"
+                      d="M60,28c0-8.301-5.016-24-24-24h-8C9.016,4,4,19.699,4,28c-2.211,0-4,1.789-4,4v16c0,2.211,1.789,4,4,4h4v4
+                      c0,2.211,1.789,4,4,4h4c2.211,0,4-1.789,4-4v-4h24v4c0,2.211,1.789,4,4,4h4c2.211,0,4-1.789,4-4v-4h4c2.211,0,4-1.789,4-4V32
+                      C64,29.789,62.211,28,60,28z M16,44c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S18.211,44,16,44z M12,28c0-0.652,0.184-16,16-16
+                      h8c15.41,0,15.984,14.379,16,16H12z M48,44c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S50.211,44,48,44z"
+                    />
+                  </svg>
+                </Link></SignedOut>
       </div>
     </div>
   );

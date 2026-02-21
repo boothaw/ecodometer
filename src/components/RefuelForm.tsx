@@ -1,6 +1,6 @@
+"use client";
+
 import { newRefuel } from "../actions/refuels";
-import CloseDetailsButton from "./CloseDetailsButton";
-import Link from "next/link";
 
 type RefuelFormProps = {
   vehicle: {
@@ -10,9 +10,10 @@ type RefuelFormProps = {
     gallons?: number | null
   }
   profileId: number
+  onClose?: () => void
 }
 
-export default function RefuelForm({ vehicle, profileId }: RefuelFormProps) {
+export default function RefuelForm({ vehicle, profileId, onClose }: RefuelFormProps) {
   const now = new Date();
   const pad = (n: number) => n.toString().padStart(2, "0");
   const formattedDate = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
@@ -22,7 +23,7 @@ export default function RefuelForm({ vehicle, profileId }: RefuelFormProps) {
 
   return (
     <div className="flex items-center justify-center font-body w-full mt-4">
-      <div className="card-body card bg-white flex flex-col mx-auto gap-6 text-center sm:text-left w-full max-w-md">
+      <div className="card-body card bg-white flex flex-col mx-auto gap-6 text-center sm:text-left w-full">
         <h3 className="text-lg font-semibold text-navy font-display card-title">
           Fill Er&apos; Up
         </h3>
@@ -70,7 +71,11 @@ export default function RefuelForm({ vehicle, profileId }: RefuelFormProps) {
             <button type="submit" className="btn btn-primary">
               Add Fill Up
             </button>
-            <CloseDetailsButton />
+            {onClose && (
+              <button type="button" className="btn btn-secondary" onClick={onClose}>
+                Cancel
+              </button>
+            )}
           </div>
         </form>
       </div>

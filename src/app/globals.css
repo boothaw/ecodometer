@@ -15,6 +15,8 @@
   --orange: #ca4500;
   --blue: #7587a0;
   --yellow: #c8990a;
+  --yellow-opacity: #c8990a33;
+  --whiteish-opacity: #c8ccc133;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,6 +25,8 @@
     --navy: #e4e8dd; */
   }
 }
+
+/* generic */
 
 body {
   background: var(--white);
@@ -47,7 +51,21 @@ body {
   font-family: var(--font-overpass, "Overpass", sans-serif) !important;
 }
 
-/* generic */
+.linked-logo {
+  padding: 0 10px;
+  transition: 0.3s all ease-in-out;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+
+  span {
+    transition: inherit;
+  }
+
+  &:hover {
+    color: var(--yellow) !important;
+  }
+}
 
 h1,
 h2,
@@ -62,23 +80,67 @@ h5 {
   color: var(--navy);
 }
 
+& svg {
+  transition: all ease-in-out 0.3s;
+}
+
 .btn {
-  /* color: var(--navy); */
+  padding: 5px 10px;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border-radius: var(--radius-box);
+  text-transform: capitalize;
+  font-style: italic;
 
   & svg {
-    width: 20px;
+    width: 24px;
+    height: fit-content;
+    transition: all ease-in-out 0.3s;
+
+    & path {
+      transition: all ease-in-out 0.3s;
+    }
   }
 }
 
-.btn-primary {
+.btn.btn-primary {
   background-color: var(--navy);
   color: var(--white);
   outline: 0;
   border: 0;
-  box-shadow: 0;
+  box-shadow: none;
+  transition: all ease-in-out 0.3s;
+  border: 6px double var(--navy);
 
   &:hover {
     background-color: var(--orange);
+    border: 6px double var(--orange);
+  }
+}
+
+.btn.btn-secondary {
+  background-color: #fff;
+  color: var(--navy);
+  outline: 0;
+  border: 0;
+  box-shadow: none;
+  transition: all ease-in-out 0.3s;
+  border: 6px double #fff;
+
+  &:hover {
+    /* background-color: var(--yellow); */
+    border-color: var(--yellow);
+
+    & svg {
+      fill: var(--navy);
+
+      & path {
+        fill: var(--navy);
+      }
+    }
   }
 }
 
@@ -99,6 +161,7 @@ h5 {
 
 .card {
   background-color: #fff;
+  border: none;
 }
 
 .card-body {
@@ -120,6 +183,10 @@ h5 {
   }
 }
 
+.card-title.skeleton-title {
+  border-bottom: 6px double var(--blue);
+}
+
 .card-title.car-title {
   border-bottom: 0px;
 }
@@ -127,5 +194,184 @@ h5 {
 .form {
   input {
     background-color: var(--white);
+  }
+}
+
+/* refuel form */
+
+.refuel-form-enter {
+  animation: bounceInDown 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+}
+
+.refuel-form-exit {
+  animation: slideUp 0.3s ease-in forwards;
+}
+
+/* skeleton */
+
+.skeleton {
+  background: linear-gradient(
+    to bottom right,
+    var(--whiteish-opacity),
+    var(--yellow-opacity)
+  );
+  border-radius: var(--radius-box);
+  height: 1.5em;
+  width: 100%;
+  animation: skeleton 1.5s infinite alternate ease-in-out;
+}
+
+.skeleton.skeleton-title {
+  background: #fff;
+}
+.skeleton:not(.skeleton-btn) + .skeleton:not(.skeleton-btn) {
+  width: 100%;
+}
+
+.skeleton-btn {
+  height: 3em;
+  width: 5em;
+}
+
+.skeleton-input {
+  height: 2.25em;
+  border: 2px solid var(--white);
+}
+
+.skeleton-form {
+  .skeleton {
+    background-color: var(--white);
+    background: var(--white);
+  }
+}
+
+/* logo animation */
+
+.animate-fade-in-right {
+  animation: fadeInRightBig 0.8s ease-out forwards;
+  transform-origin: bottom center;
+}
+
+.animate-fade-in-right-delay {
+  opacity: 0;
+  animation: fadeInRightBig 0.8s ease-out 0.15s forwards;
+  transform-origin: bottom center;
+  overflow: hidden;
+}
+
+/* animation keyframes */
+@keyframes fadeInRightBig {
+  0% {
+    opacity: 0;
+    transform: translateX(120px) skewX(0deg);
+    transform-origin: bottom center;
+  }
+  55% {
+    opacity: 1;
+    transform: translateX(0) skewX(-5deg);
+    transform-origin: bottom center;
+  }
+  60% {
+    transform: translateX(0) skewX(20deg);
+    transform-origin: bottom center;
+  }
+  80% {
+    transform: translateX(0) skewX(0deg);
+    transform-origin: bottom center;
+  }
+  90% {
+    transform: translateX(0) skewX(-5deg);
+    transform-origin: bottom center;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) skewX(0deg);
+    transform-origin: bottom center;
+  }
+}
+
+@keyframes bounceInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(8px);
+  }
+  80% {
+    transform: translateY(-4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+@keyframes driveRight {
+  0% {
+    transform: translateX(0) scale(0.9);
+    opacity: 0.75;
+  }
+
+  50% {
+    transform: translateX(50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(100%) scale(0.85);
+    opacity: 0;
+  }
+}
+@keyframes ecoTakeoff {
+  /* 0% {
+    transform: translateY(0) skewX(0deg) scale(1);
+  }
+
+  20% {
+    transform: translateY(-2px) skewX(-6deg) scale(1.03);
+  }
+
+  35% {
+    transform: translateY(-3px) skewX(-8deg) scale(1.05);
+  }
+
+  55% {
+    transform: translateY(-1px) skewX(-3deg) scale(1.02);
+  }
+
+  100% {
+    transform: translateY(0) skewX(0deg) scale(1);
+  } */
+}
+
+@keyframes skeleton {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
   }
 }
