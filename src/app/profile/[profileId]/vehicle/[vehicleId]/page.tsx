@@ -14,7 +14,13 @@ export default async function VehiclePage({
 }) {
   const { profileId, vehicleId } = await params;
 
-  const myProfile = await getProfileForCurrentUser();
+  let myProfile;
+  try {
+    myProfile = await getProfileForCurrentUser();
+  } catch (e) {
+    if (e instanceof Error && e.message === "Unauthorized") redirect("/login");
+    throw e;
+  }
   const profileIdNum = Number(profileId);
   const vehicleIdNum = Number(vehicleId);
 
@@ -48,10 +54,10 @@ export default async function VehiclePage({
     <div className="flex items-center justify-center font-body">
       <main className="flex md:max-w-xl flex-col items-center justify-between py-8 px-0 mx-auto w-[90%] sm:items-start">
         <div className="mx-auto w-full flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <div className="card card-body flex justify-between w-full items-center flex-col gap-2">
-              <h1 className="max-w-xs text-3xl font-semibold text-navy font-display text-center  leading-none">
-              {vehicle.name ?? "Vehicle"}<br></br>
-              <span className="text-yellow text-base">=</span> <span className="text-base">{makeModel && `${makeModel}`}</span> <span className="text-yellow text-base">=</span>
+          <div className="card card-body flex justify-between w-full items-center flex-col gap-2 overflow-hidden">
+              <h1 className="max-w-xs text-3xl font-semibold text-navy font-display text-center leading-none flex flex-col justify-center items-center">
+              <span className="animate-fade-in-right inline-block">{vehicle.name ?? "Vehicle"}</span>
+              <div className="flex items-center gap-1 mx-auto"><span className="text-yellow text-base">=</span> <span className="text-base inline-block ">{makeModel && `${makeModel}`}</span> <span className="text-yellow text-base">=</span></div>
             </h1>
             <div className="flex justify-center w-full items-center">
                 <h2 className="text-2xl text-center">{overallMpg ?? "—"} <span className="text-sm font-body font-bold">MPG</span></h2>

@@ -1,6 +1,25 @@
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { getProfileForCurrentUser } from "@/src/lib/profile";
+import { SkeletonButton } from "@/src/components/Skeleton";
+
+export function NavSkeleton() {
+  return (
+    <div className="navbar bg-white shadow-sm">
+      <div className="navbar-start">
+        <SkeletonButton white short />
+      </div>
+      <div className="navbar-center">
+        <a href="/" className="text-xl font-display linked-logo">
+          <span className="text-yellow">=</span> <span className="eco">ECOdometer</span> <span className="text-yellow">=</span>
+        </a>
+      </div>
+      <div className="navbar-end">
+        <SkeletonButton white short />
+      </div>
+    </div>
+  );
+}
 
 export default async function Nav() {
   // Get profile for signed-in users (will be null if not signed in)
@@ -41,7 +60,8 @@ export default async function Nav() {
       </div>
       <div className="navbar-end">
             <SignedIn>
-                <Link className="btn btn-secondary" href={`/profile/${profileId}`}>
+                {profileId ? (
+                <Link className="btn btn-secondary" href={`/profile/${profileId}`} prefetch={false}>
                     <svg
                       version="1.0"
                       id="Layer_1"
@@ -62,6 +82,29 @@ export default async function Nav() {
                       />
                     </svg>
                 </Link>
+                ) : (
+                <span className="btn btn-secondary">
+                    <svg
+                      version="1.0"
+                      id="Layer_1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                      width="800px"
+                      height="800px"
+                      viewBox="0 0 64 64"
+                      enableBackground="new 0 0 64 64"
+                      xmlSpace="preserve"
+                    >
+                      <path
+                        fill="#7587a0"
+                        d="M60,28c0-8.301-5.016-24-24-24h-8C9.016,4,4,19.699,4,28c-2.211,0-4,1.789-4,4v16c0,2.211,1.789,4,4,4h4v4
+                        c0,2.211,1.789,4,4,4h4c2.211,0,4-1.789,4-4v-4h24v4c0,2.211,1.789,4,4,4h4c2.211,0,4-1.789,4-4v-4h4c2.211,0,4-1.789,4-4V32
+                        C64,29.789,62.211,28,60,28z M16,44c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S18.211,44,16,44z M12,28c0-0.652,0.184-16,16-16
+                        h8c15.41,0,15.984,14.379,16,16H12z M48,44c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S50.211,44,48,44z"
+                      />
+                    </svg>
+                </span>
+                )}
             </SignedIn>
             <SignedOut>                
               <Link className="btn btn-secondary" href="/login">

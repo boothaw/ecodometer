@@ -13,7 +13,13 @@ export default async function Profile({
 }) {
   const { profileId } = await params;
 
-  const myProfile = await getProfileForCurrentUser();
+  let myProfile;
+  try {
+    myProfile = await getProfileForCurrentUser();
+  } catch (e) {
+    if (e instanceof Error && e.message === "Unauthorized") redirect("/login");
+    throw e;
+  }
 
   if (profileId === "me") {
     redirect(`/profile/${myProfile.id}`);

@@ -1,3 +1,5 @@
+"use client";
+
 import { newRefuel } from "../actions/refuels";
 
 type RefuelFormProps = {

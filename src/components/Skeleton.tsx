@@ -26,10 +26,13 @@ export function Skeleton({
 
 export function SkeletonButton({
   white,
+  short,
 }: {
   white?: boolean
+  short?: boolean
 }) {
   return <div style={{
+        width: short ? "3em" : undefined,
         background: white ? "#fff" : undefined,
       }} className="skeleton skeleton-btn" />
 }

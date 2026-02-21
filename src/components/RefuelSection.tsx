@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import RefuelForm from "./RefuelForm";
 
 type RefuelSectionProps = {
@@ -15,26 +15,6 @@ type RefuelSectionProps = {
 
 export default function RefuelSection({ vehicle, profileId }: RefuelSectionProps) {
   const [open, setOpen] = useState(false);
-  const [animating, setAnimating] = useState(false);
-  const [visible, setVisible] = useState(false);
-
-  function handleOpen() {
-    setVisible(true);
-    // allow DOM to mount before triggering enter animation
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => setAnimating(true));
-    });
-    setOpen(true);
-  }
-
-  function handleClose() {
-    setAnimating(false);
-    // wait for exit animation before unmounting
-    setTimeout(() => {
-      setVisible(false);
-      setOpen(false);
-    }, 200);
-  }
 
   return (
     <div className="w-full">
@@ -42,8 +22,8 @@ export default function RefuelSection({ vehicle, profileId }: RefuelSectionProps
         <h3 className="text-lg text-left font-body font-bold">Need To Fill Up?</h3>
         <button
           type="button"
-          className="btn btn-secondary"
-          onClick={open ? handleClose : handleOpen}
+          className="btn btn-secondary "
+          onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
         >
           <svg
@@ -56,11 +36,23 @@ export default function RefuelSection({ vehicle, profileId }: RefuelSectionProps
         </button>
       </div>
 
-      {visible && (
-        <div className={animating ? "refuel-form-enter" : "refuel-form-exit"}>
-          <RefuelForm vehicle={vehicle} profileId={profileId} onClose={handleClose} />
+      <div
+        style={{
+          display: "grid",
+          gridTemplateRows: open ? "1fr" : "0fr",
+          transition: "grid-template-rows 0.3s ease",
+        }}
+      >
+        <div style={{ overflow: "hidden" }}>
+          <div className={open ? "refuel-form-enter" : ""}>
+            <RefuelForm
+              vehicle={vehicle}
+              profileId={profileId}
+              onClose={() => setOpen(false)}
+            />
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

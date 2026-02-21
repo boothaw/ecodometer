@@ -32,7 +32,7 @@ export function VehicleCard({ vehicle, mpg, profileId }: VehicleCardProps) {
                 <p className="text-left font-extrabold">Miles: {milesDisplay}</p>
                 </div>
                 <div className="card-actions justify-end">
-                <Link href={`/profile/${profileId}/vehicle/${vehicle.id}`} className="btn btn-primary">View Now</Link>
+                <Link href={`/profile/${profileId}/vehicle/${vehicle.id}`} className="btn btn-primary" prefetch={false}>View Now</Link>
               </div>
             </div>
         </div>

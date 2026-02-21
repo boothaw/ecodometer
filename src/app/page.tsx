@@ -8,7 +8,7 @@ export default function Home() {
           <h1 className="max-w-xs text-5xl font-semibold leading-10 tracking-tight text-center font-display m-0 animate-fade-in-right">
             ECOdometer
           </h1>
-          <p className="flex items-center text-xl text-center uppercase text-navy mx-auto gap-1"><span className="text-yellow">=</span> <span className="inline-block animate-fade-in-right-delay">Running From Empty</span> <span className="text-yellow">=</span></p>
+          <div className="flex items-center text-xl text-center uppercase text-navy mx-auto gap-1"><span className="text-yellow">=</span> <span className="inline-block animate-fade-in-right-delay">Running From Empty</span> <span className="text-yellow">=</span></div>
         </div>
       </main>
     </div>

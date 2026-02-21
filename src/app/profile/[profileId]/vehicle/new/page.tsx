@@ -10,7 +10,13 @@ export default async function NewVehiclePage({
 }: {
   params: Promise<{ profileId: string }>;
 }) {
-  const profile = await getProfileForCurrentUser();
+  let profile;
+  try {
+    profile = await getProfileForCurrentUser();
+  } catch (e) {
+    if (e instanceof Error && e.message === "Unauthorized") redirect("/login");
+    throw e;
+  }
   const profileIdNum = Number((await params).profileId);
 
   if (profileIdNum !== profile.id) {
