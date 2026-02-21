@@ -61,8 +61,8 @@ export default async function Profile({
   }
   
   return (
-    <div className="flex items-center justify-center font-body">
-      <main className="flex md:max-w-xl flex-col items-center justify-between py-8 px-0 mx-auto w-[90%] sm:items-start">
+    <div className="min-h-screen flex items-center justify-center font-body">
+      <main className="min-h-screen flex md:max-w-xl flex-col items-center justify-between py-8 px-0 mx-auto w-[90%] sm:items-start">
         <div className="flex w-full flex-col items-center justify-center mx-auto gap-6 text-center">
               <h1 className="animate-fade-in-right max-w-xs text-3xl font-semibold text-navy font-display">
                   {displayName}
