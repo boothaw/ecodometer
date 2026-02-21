@@ -30,6 +30,17 @@ export default function RefuelForm({ vehicle, profileId, onClose }: RefuelFormPr
         <form action={newRefuel} className="flex flex-col gap-3 form">
           <input type="hidden" name="vehicleId" value={vehicle.id} />
           <label className="form-control w-full">
+            <span className="label-text">Total Miles</span>
+            <input
+              type="number"
+              name="miles"
+              placeholder={(vehicle.miles ?? undefined)?.toString()}
+              min={(vehicle.miles != null ? vehicle.miles + 1 : undefined)}
+              required
+              className="input input-bordered w-full"
+            />
+          </label>
+          <label className="form-control w-full">
             <span className="label-text">Gallons Used</span>
             <input
               type="number"
@@ -38,20 +49,6 @@ export default function RefuelForm({ vehicle, profileId, onClose }: RefuelFormPr
               step="0.01"
               min={0}
               max={50}
-              required
-              className="input input-bordered w-full"
-            />
-          </label>
-          <label className="form-control w-full">
-            <span className="label-text">Total Miles</span>
-            <input
-              type="number"
-              name="miles"
-              placeholder={(vehicle.miles ?? undefined)?.toString()}
-              min={vehicle.miles ?? undefined}
-              // make min most recent miles
-              max={vehicle.miles != null ? vehicle.miles + 1000 : undefined}
-              // make max most recent + 1000 miles
               required
               className="input input-bordered w-full"
             />

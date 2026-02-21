@@ -25,8 +25,9 @@ model Vehicle {
   year    Int?
   model   String?
   make    String?
-  miles   Int 
-  refuels Refuel[]
+  miles        Int
+  initialMiles Int
+  refuels      Refuel[]
 }
 
 model Refuel {
