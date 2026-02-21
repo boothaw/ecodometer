@@ -9,7 +9,7 @@ export default function LoadingNewVehiclePage() {
                 <SkeletonTitle short />
               </h1>
               <div className="flex flex-col gap-3">
-                <SkeletonList amount={5}>
+                <SkeletonList amount={4}>
                   <div className="form-control w-full text-left flex flex-col gap-2">
                     <Skeleton short />
                     <SkeletonInput />

@@ -40,7 +40,7 @@ export default async function Nav() {
         </a>
       </div>
       <div className="navbar-end">
-            {profileId ? (
+            <SignedIn>
                 <Link className="btn btn-secondary" href={`/profile/${profileId}`}>
                     <svg
                       version="1.0"
@@ -62,8 +62,9 @@ export default async function Nav() {
                       />
                     </svg>
                 </Link>
-            ) : (
-                <Link className="btn btn-secondary" href="/login">
+            </SignedIn>
+            <SignedOut>                
+              <Link className="btn btn-secondary" href="/login">
                     <svg
                     version="1.0"
                     id="Layer_1"
@@ -83,9 +84,7 @@ export default async function Nav() {
                       h8c15.41,0,15.984,14.379,16,16H12z M48,44c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S50.211,44,48,44z"
                     />
                   </svg>
-                </Link>
-            )}
-
+                </Link></SignedOut>
       </div>
     </div>
   );

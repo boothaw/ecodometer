@@ -8,7 +8,7 @@ export default function LoginPage() {
             Login
           </h1>
         </div>
-        <div className="p-4 items-center justify-center m-auto flex-col flex gap-2">
+        <div className="items-center justify-center m-auto flex-col flex gap-2">
          <SignIn  />
         </div>
       </main>
