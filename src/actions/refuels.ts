@@ -14,6 +14,12 @@ export async function newRefuel(formData: FormData) {
   const vehicle = await getVehicleIfOwnedByCurrentUser(vehicleId);
   if (!vehicle) throw new Error("Unauthorized");
 
+  if (miles <= (vehicle.miles ?? 0)) {
+    throw new Error(
+      "Odometer reading must be greater than the current vehicle miles."
+    );
+  }
+
   await prisma.refuel.create({
     data: {
       vehicleId: vehicle.id,
@@ -23,8 +29,6 @@ export async function newRefuel(formData: FormData) {
     },
   });
 
-  prisma.vehicle.update
-
   if (miles > vehicle.miles) {
     await prisma.vehicle.update({
       where: { id: vehicle.id },
@@ -33,5 +37,7 @@ export async function newRefuel(formData: FormData) {
   }
 
   revalidatePath(`/profile/${vehicle.ownerId}/vehicle/${vehicle.id}`);
+  revalidatePath(`/profile/${vehicle.ownerId}`);
+  revalidatePath(`/profile`, "layout");
   redirect(`/profile/${vehicle.ownerId}/vehicle/${vehicle.id}`);
 }

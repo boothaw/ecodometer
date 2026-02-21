@@ -13,10 +13,11 @@ type RefuelCardProps = {
 }
 
 export function RefuelCard({ refuel, prevMiles, profileId }: RefuelCardProps) {
-  const mpg =
+  const mpgValue =
     prevMiles != null
-      ? ((refuel.miles - prevMiles) / refuel.gallons.toNumber()).toFixed(1)
+      ? (refuel.miles - prevMiles) / refuel.gallons.toNumber()
       : null;
+  const mpg = mpgValue != null && mpgValue > 0 ? mpgValue.toFixed(1) : null;
 
   const milesDisplay = refuel.miles.toLocaleString();
 

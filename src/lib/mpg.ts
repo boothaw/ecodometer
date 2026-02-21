@@ -17,5 +17,7 @@ export function calcMpg(refuels: RefuelForMpg[]): string | null {
     .slice(1)
     .reduce((sum, r) => sum + r.gallons.toNumber(), 0);
   if (totalGallons <= 0) return null;
-  return (totalMiles / totalGallons).toFixed(1);
+  const result = totalMiles / totalGallons;
+  if (!isFinite(result) || isNaN(result)) return null;
+  return result.toFixed(1);
 }

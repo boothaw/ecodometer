@@ -42,6 +42,7 @@ export default async function NewVehiclePage({
         model: model || undefined,
         make: make || undefined,
         miles,
+        initialMiles: miles,
       },
     });
     revalidatePath(`/profile/${profile.id}`) 
