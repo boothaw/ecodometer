@@ -56,37 +56,14 @@ body {
   transition: 0.3s all ease-in-out;
   position: relative;
   display: inline-block;
-  overflow: hidden; /* keeps animation clipped inside text height */
+  overflow: hidden;
 
-  .text-yellow {
-    display: inline-block;
-    position: relative;
-    transform-origin: center;
-    will-change: transform, opacity;
-  }
-
-  .eco {
-    /* background-color: var(--white); */
-    z-index: 2;
-    position: relative;
-    /* text-shadow: 2px 2px 2px var(--white); */
-    display: inline-block;
+  span {
+    transition: inherit;
   }
 
   &:hover {
     color: var(--yellow) !important;
-
-    .text-yellow {
-      animation: driveRight 1s linear infinite;
-    }
-    .text-yellow:last-of-type {
-      animation-delay: 0.3s;
-      animation: driveRight 1s linear infinite;
-    }
-    .eco {
-      /* animation: ecoTakeoff 1.6s ease-in-out infinite; */
-      /* transform-origin: left center; */
-    }
   }
 }
 
@@ -222,11 +199,11 @@ h5 {
 /* refuel form */
 
 .refuel-form-enter {
-  animation: slideDown 0.5s ease-out forwards;
+  animation: bounceInDown 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
 }
 
 .refuel-form-exit {
-  animation: slideUp 0.25s ease-in forwards;
+  animation: slideUp 0.3s ease-in forwards;
 }
 
 /* skeleton */
@@ -267,7 +244,69 @@ h5 {
   }
 }
 
+/* logo animation */
+
+.animate-fade-in-right {
+  animation: fadeInRightBig 0.8s ease-out forwards;
+  transform-origin: bottom center;
+}
+
+.animate-fade-in-right-delay {
+  opacity: 0;
+  animation: fadeInRightBig 0.8s ease-out 0.15s forwards;
+  transform-origin: bottom center;
+  overflow: hidden;
+}
+
 /* animation keyframes */
+@keyframes fadeInRightBig {
+  0% {
+    opacity: 0;
+    transform: translateX(120px) skewX(0deg);
+    transform-origin: bottom center;
+  }
+  55% {
+    opacity: 1;
+    transform: translateX(0) skewX(-5deg);
+    transform-origin: bottom center;
+  }
+  60% {
+    transform: translateX(0) skewX(20deg);
+    transform-origin: bottom center;
+  }
+  80% {
+    transform: translateX(0) skewX(0deg);
+    transform-origin: bottom center;
+  }
+  90% {
+    transform: translateX(0) skewX(-5deg);
+    transform-origin: bottom center;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) skewX(0deg);
+    transform-origin: bottom center;
+  }
+}
+
+@keyframes bounceInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(8px);
+  }
+  80% {
+    transform: translateY(-4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes slideDown {
   from {
     opacity: 0;

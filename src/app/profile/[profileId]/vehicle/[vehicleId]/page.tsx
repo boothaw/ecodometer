@@ -46,7 +46,7 @@ export default async function VehiclePage({
   return (
     <>
     <div className="flex items-center justify-center font-body">
-      <main className="flex md:max-w-xl flex-col items-center justify-between py-16 px-0 mx-auto w-[90%] sm:items-start">
+      <main className="flex md:max-w-xl flex-col items-center justify-between py-8 px-0 mx-auto w-[90%] sm:items-start">
         <div className="mx-auto w-full flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
           <div className="card card-body flex justify-between w-full items-center flex-col gap-2">
               <h1 className="max-w-xs text-3xl font-semibold text-navy font-display text-center  leading-none">
