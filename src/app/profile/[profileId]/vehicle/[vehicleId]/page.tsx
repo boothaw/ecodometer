@@ -76,7 +76,7 @@ export default async function VehiclePage({
           <RefuelSection vehicle={vehicle} profileId={profileIdNum} />
 
           {refuels.length === 0 ? (
-            <p className="text-base-content/80">No refuels yet.</p>
+            <p className="font-bold">No refuels yet.</p>
           ) : (
             <ul className="flex flex-col gap-4 w-full">
               {refuels.map((refuel, i) => {
