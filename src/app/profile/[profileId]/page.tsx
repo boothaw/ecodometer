@@ -49,7 +49,7 @@ export default async function Profile({
   const allRefuels = vehicleIds.length > 0
     ? await prisma.refuel.findMany({
         where: { vehicleId: { in: vehicleIds } },
-        orderBy: { date: "asc" },
+        orderBy: [{ miles: "asc" }, { date: "asc" }],
         select: { vehicleId: true, miles: true, gallons: true },
       })
     : [];
