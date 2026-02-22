@@ -84,14 +84,16 @@ export default async function VehiclePage({
                 const prevMiles = isOldest
                   ? initialMiles
                   : refuels[i + 1]?.miles ?? null;
-
+                const nextMiles = i === 0 ? null : refuels[i - 1]?.miles ?? null;
 
                 return (
                   <li key={refuel.id}>
                     <RefuelCard
-                      refuel={refuel}
+                      refuel={{ ...refuel, gallons: refuel.gallons.toNumber() }}
                       prevMiles={prevMiles}
+                      nextMiles={nextMiles}
                       profileId={profileIdNum}
+                      vehicleId={vehicleIdNum}
                     />
                   </li>
                 );
