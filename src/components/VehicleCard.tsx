@@ -9,6 +9,7 @@ type VehicleCardProps = {
     model?: string | null
     year?: number | null
     miles?: number | null
+    initialMiles?: number | null
   }
   mpg?: string | null
   profileId: number
