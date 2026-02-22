@@ -47,7 +47,7 @@ export function RefuelCard({ refuel, prevMiles, nextMiles, profileId, vehicleId 
       <div className="card card-border w-full bg-white refuel-form-enter">
         <div className="card-body text-left">
           <h3 className="text-lg font-semibold text-navy font-display card-title">Edit Fill Up</h3>
-          <form action={editRefuel} className="flex flex-col gap-3 form">
+          <form action={editRefuel} className="flex flex-col gap-3 form" onSubmit={() => setIsEditing(false)}>
             <input type="hidden" name="refuelId" value={refuel.id} />
             <input type="hidden" name="vehicleId" value={vehicleId} />
             <label className="form-control w-full">
