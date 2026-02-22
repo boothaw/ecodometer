@@ -49,7 +49,7 @@ export default async function Profile({
   const allRefuels = vehicleIds.length > 0
     ? await prisma.refuel.findMany({
         where: { vehicleId: { in: vehicleIds } },
-        orderBy: { date: "asc" },
+        orderBy: [{ miles: "asc" }, { date: "asc" }],
         select: { vehicleId: true, miles: true, gallons: true },
       })
     : [];
@@ -57,7 +57,13 @@ export default async function Profile({
   const mpgByVehicleId = new Map<number, string | null>();
   for (const vehicle of profile.vehicles) {
     const vRefuels = allRefuels.filter((r) => r.vehicleId === vehicle.id);
-    mpgByVehicleId.set(vehicle.id, calcMpg(vRefuels));
+    const initialMiles = vehicle.initialMiles ?? vehicle.miles;
+    const baselineMiles =
+      vRefuels.length > 0
+        ? Math.min(initialMiles, vRefuels[0].miles)
+        : initialMiles;
+    const baseline = { miles: baselineMiles, gallons: { toNumber: () => 0 } };
+    mpgByVehicleId.set(vehicle.id, calcMpg([baseline, ...vRefuels]));
   }
   
   return (
