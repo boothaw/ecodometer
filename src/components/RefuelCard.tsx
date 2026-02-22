@@ -7,6 +7,7 @@ type RefuelCardProps = {
     miles: number
     gallons: { toNumber(): number }
     date: Date
+    note?: string | null
   }
   prevMiles: number | null
   profileId: number
@@ -47,6 +48,9 @@ export function RefuelCard({ refuel, prevMiles, profileId }: RefuelCardProps) {
               </div>
             </div>
             </div>
+            {refuel.note && (
+              <p className="text-left text-sm font-body mt-1">{refuel.note}</p>
+            )}
         </div>
     </div>
   )
@@ -54,20 +58,16 @@ export function RefuelCard({ refuel, prevMiles, profileId }: RefuelCardProps) {
 
 export function SkeletonRefuelCard() {
   return (
-    <div className="card">
-      <div className="card-header">
-        <Skeleton short />
-      </div>
+    <div className="card card-border w-full bg-white">
       <div className="card-body">
-        <div className="card-preview-text">
-          <Skeleton />
-          <Skeleton />
-          <Skeleton />
-          <Skeleton />
+        <div className="card-title justify-between gap-6 items-center">
+          <Skeleton short />
+          <Skeleton short />
         </div>
-      </div>
-      <div className="card-footer">
-        <SkeletonButton />
+        <div className="flex justify-between gap-2">
+          <Skeleton short />
+          <SkeletonButton />
+        </div>
       </div>
     </div>
   )

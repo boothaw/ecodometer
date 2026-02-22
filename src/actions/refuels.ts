@@ -10,6 +10,8 @@ export async function newRefuel(formData: FormData) {
   const gallons = Number(formData.get("gallons"));
   const miles = Number(formData.get("miles"));
   const date = new Date(formData.get("event-date") as string);
+  const rawNote = (formData.get("note") as string).trim();
+  const note = rawNote ? rawNote.slice(0, 75) : null;
 
   const vehicle = await getVehicleIfOwnedByCurrentUser(vehicleId);
   if (!vehicle) throw new Error("Unauthorized");
@@ -26,6 +28,7 @@ export async function newRefuel(formData: FormData) {
       gallons,
       miles,
       date,
+      note,
     },
   });
 

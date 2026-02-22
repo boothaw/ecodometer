@@ -64,6 +64,16 @@ export default function RefuelForm({ vehicle, profileId, onClose }: RefuelFormPr
               required
             />
           </label>
+          <label className="form-control w-full">
+            <span className="label-text">Note</span>
+            <textarea
+              name="note"
+              placeholder="Optional note..."
+              maxLength={75}
+              className="textarea textarea-bordered w-full font-body bg-white"
+              rows={2}
+            />
+          </label>
           <div className="flex gap-2 mt-2">
             <button type="submit" className="btn btn-primary">
               Add Fill Up

@@ -37,6 +37,7 @@ model Refuel {
   miles     Int
   gallons   Decimal  @db.Decimal(10, 3)
   date      DateTime @default(now())
+  note      String?
   createdAt DateTime @default(now())
 
   @@index([vehicleId, date])
