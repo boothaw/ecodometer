@@ -95,12 +95,12 @@ h5 {
   text-transform: capitalize;
   font-style: italic;
 
-  & svg {
+  svg {
     width: 24px;
     height: 24px;
     transition: all ease-in-out 0.3s;
 
-    & path {
+    path {
       transition: all ease-in-out 0.3s;
     }
   }
@@ -118,6 +118,19 @@ h5 {
   &:hover {
     background-color: var(--orange);
     border: 6px double var(--orange);
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+    transition: all ease-in-out 0.3s;
+
+    path {
+      transition: all ease-in-out 0.3s;
+      &:first-of-type {
+        fill: #fff;
+      }
+    }
   }
 }
 

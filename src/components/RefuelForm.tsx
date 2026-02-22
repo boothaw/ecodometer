@@ -23,7 +23,7 @@ export default function RefuelForm({ vehicle, profileId, onClose }: RefuelFormPr
 
   return (
     <div className="flex items-center justify-center font-body w-full mt-4">
-      <div className="card-body card bg-white flex flex-col mx-auto gap-6 text-center sm:text-left w-full">
+      <div className="card-body card bg-white flex flex-col mx-auto gap-6 text-left w-full">
         <h3 className="text-lg font-semibold text-navy font-display card-title">
           Fill Er&apos; Up
         </h3>
@@ -62,6 +62,16 @@ export default function RefuelForm({ vehicle, profileId, onClose }: RefuelFormPr
               name="event-date"
               defaultValue={formattedDate}
               required
+            />
+          </label>
+          <label className="form-control w-full">
+            <span className="label-text">Note</span>
+            <textarea
+              name="note"
+              placeholder="Optional note..."
+              maxLength={75}
+              className="textarea textarea-bordered w-full font-body bg-white"
+              rows={2}
             />
           </label>
           <div className="flex gap-2 mt-2">
