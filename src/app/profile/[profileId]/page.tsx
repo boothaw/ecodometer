@@ -1,4 +1,5 @@
 import { VehicleCard } from "@/src/components/VehicleCard";
+import { DeleteVehicleSection } from "@/src/components/DeleteVehicleButton";
 import { getProfileForCurrentUser, getProfileIfOwnedByCurrentUser } from "@/src/lib/profile";
 import { prisma } from "@/src/lib/db";
 import { calcMpg } from "@/src/lib/mpg";
@@ -100,14 +101,17 @@ export default async function Profile({
                     ))}
                   </ul>
                 )}
-            <div className="flex gap-2">
-            <Link
-              className="btn btn-primary"
-              href={`/profile/${profileId}/vehicle/new`}
-            >
-              New Vehicle
-            </Link>
-          </div>
+            <div className="flex gap-2 flex-wrap justify-center w-full">
+              <Link
+                className="btn btn-primary"
+                href={`/profile/${profileId}/vehicle/new`}
+              >
+                New Vehicle
+              </Link>
+              {profile.vehicles.length > 0 && (
+                <DeleteVehicleSection vehicles={profile.vehicles.map((v) => ({ id: v.id, name: v.name, make: v.make, model: v.model }))} />
+              )}
+            </div>
         </div>
       </main>
     </div>

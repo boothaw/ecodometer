@@ -4,3 +4,28 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Clickjacking protection — prevents the site from being embedded in iframes
+    X-Frame-Options = "DENY"
+
+    # Don't send full URL in Referer header when navigating to other origins
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Disable browser features this app doesn't need
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+    # Upgrade HSTS to include subdomains
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+
+    # Content Security Policy
+    # Notes:
+    #   - 'unsafe-inline' for scripts is required because Next.js embeds RSC
+    #     payload as inline <script> blocks. It still protects against loading
+    #     scripts from unknown external domains.
+    #   - Clerk domains are whitelisted for script/connect/frame/img
+    #   - If you switch to live Clerk keys, the *.clerk.accounts.dev domains
+    #     remain valid (both dev and live instances use them)
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://*.clerk.accounts.dev https://*.clerk.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://img.clerk.com; font-src 'self' data:; connect-src 'self' https://*.clerk.accounts.dev https://*.clerk.com wss://*.clerk.accounts.dev; frame-src https://*.clerk.accounts.dev https://*.clerk.com; object-src 'none'; base-uri 'self'; form-action 'self';"
