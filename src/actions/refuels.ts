@@ -5,11 +5,20 @@ import { prisma } from "@/src/lib/db";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
+function parseDateInput(value: string): Date {
+  // HTML date inputs return YYYY-MM-DD. Parsing this string directly with
+  // new Date() treats it as UTC midnight, which can shift the displayed date
+  // by a day in negative-offset timezones. Appending T12:00:00Z keeps the
+  // date stable regardless of server timezone.
+  const [year, month, day] = value.split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, day, 12, 0, 0));
+}
+
 export async function newRefuel(formData: FormData) {
   const vehicleId = Number(formData.get("vehicleId"));
   const gallons = Number(formData.get("gallons"));
   const miles = Number(formData.get("miles"));
-  const date = new Date(formData.get("event-date") as string);
+  const date = parseDateInput(formData.get("event-date") as string);
   const rawNote = (formData.get("note") as string).trim();
   const note = rawNote ? rawNote.slice(0, 75) : null;
 
@@ -50,7 +59,7 @@ export async function editRefuel(formData: FormData) {
   const vehicleId = Number(formData.get("vehicleId"));
   const gallons = Number(formData.get("gallons"));
   const miles = Number(formData.get("miles"));
-  const date = new Date(formData.get("event-date") as string);
+  const date = parseDateInput(formData.get("event-date") as string);
   const rawNote = (formData.get("note") as string).trim();
   const note = rawNote ? rawNote.slice(0, 75) : null;
 
@@ -59,6 +68,23 @@ export async function editRefuel(formData: FormData) {
 
   const existing = await prisma.refuel.findUnique({ where: { id: refuelId } });
   if (!existing || existing.vehicleId !== vehicle.id) throw new Error("Unauthorized");
+
+  // Server-side date validation: date must not be before the previous refuel's date.
+  // "Previous" means the refuel with the next-lower miles value for this vehicle.
+  const prevRefuel = await prisma.refuel.findFirst({
+    where: {
+      vehicleId: vehicle.id,
+      miles: { lt: miles },
+      id: { not: refuelId },
+    },
+    orderBy: { miles: "desc" },
+  });
+
+  if (prevRefuel && date < prevRefuel.date) {
+    throw new Error(
+      "Date cannot be earlier than the previous refuel's date."
+    );
+  }
 
   await prisma.refuel.update({
     where: { id: refuelId },
