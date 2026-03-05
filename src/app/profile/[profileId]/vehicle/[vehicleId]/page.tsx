@@ -85,6 +85,9 @@ export default async function VehiclePage({
                   ? initialMiles
                   : refuels[i + 1]?.miles ?? null;
                 const nextMiles = i === 0 ? null : refuels[i - 1]?.miles ?? null;
+                // refuels are sorted desc by miles; the entry at i+1 has lower
+                // miles and is therefore the chronologically prior refuel.
+                const prevDate = refuels[i + 1]?.date ?? null;
 
                 return (
                   <li key={refuel.id}>
@@ -92,6 +95,7 @@ export default async function VehiclePage({
                       refuel={{ ...refuel, gallons: refuel.gallons.toNumber() }}
                       prevMiles={prevMiles}
                       nextMiles={nextMiles}
+                      prevDate={prevDate}
                       profileId={profileIdNum}
                       vehicleId={vehicleIdNum}
                     />

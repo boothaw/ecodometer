@@ -1,7 +1,6 @@
 import { getProfileForCurrentUser } from "@/src/lib/profile";
-import { prisma } from "@/src/lib/db";
+import { createVehicle } from "@/src/actions/vehicles";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import Link from "next/link";
 
 
@@ -21,32 +20,6 @@ export default async function NewVehiclePage({
 
   if (profileIdNum !== profile.id) {
     redirect(`/profile/${profile.id}/vehicle/new`);
-  }
-
-  async function createVehicle(formData: FormData) {
-    "use server";
-    const profile = await getProfileForCurrentUser();
-    const name = (formData.get("name") as string) || null;
-    const yearRaw = formData.get("year");
-    const year = yearRaw ? Number(yearRaw) : null;
-    const model = (formData.get("model") as string) || null;
-    const make = (formData.get("make") as string) || null;
-    const milesRaw = formData.get("miles");
-    const miles = milesRaw != null && milesRaw !== "" ? Number(milesRaw) : 0;
-
-    await prisma.vehicle.create({
-      data: {
-        ownerId: profile.id,
-        name: name || undefined,
-        year: year ?? undefined,
-        model: model || undefined,
-        make: make || undefined,
-        miles,
-        initialMiles: miles,
-      },
-    });
-    revalidatePath(`/profile/${profile.id}`) 
-    redirect(`/profile/${profile.id}`);
   }
 
   const currentYearPlusOne = new Date().getFullYear() + 1;

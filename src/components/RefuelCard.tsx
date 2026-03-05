@@ -14,11 +14,12 @@ type RefuelCardProps = {
   }
   prevMiles: number | null
   nextMiles: number | null
+  prevDate: Date | null
   profileId: number
   vehicleId: number
 }
 
-export function RefuelCard({ refuel, prevMiles, nextMiles, profileId, vehicleId }: RefuelCardProps) {
+export function RefuelCard({ refuel, prevMiles, nextMiles, prevDate, profileId, vehicleId }: RefuelCardProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   const mpgValue =
@@ -29,18 +30,27 @@ export function RefuelCard({ refuel, prevMiles, nextMiles, profileId, vehicleId 
 
   const milesDisplay = refuel.miles.toLocaleString();
 
+  // Use timeZone: "UTC" so the display matches the stored calendar date
+  // regardless of the user's local timezone.
   const dateDisplay = refuel.date.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
+    timeZone: "UTC",
   });
 
   const pad = (n: number) => n.toString().padStart(2, "0");
   const d = refuel.date;
-  const formattedDate = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  // Use UTC getters so dates stored at UTC noon render the correct calendar day
+  // in all browser timezones (local getters could shift ±1 day at the edges).
+  const formattedDate = `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
 
   const milesMin = prevMiles != null ? prevMiles + 1 : 1;
   const milesMax = nextMiles != null ? nextMiles - 1 : undefined;
+
+  const minDateFormatted = prevDate
+    ? `${prevDate.getUTCFullYear()}-${pad(prevDate.getUTCMonth() + 1)}-${pad(prevDate.getUTCDate())}`
+    : undefined;
 
   if (isEditing) {
     return (
@@ -83,6 +93,7 @@ export function RefuelCard({ refuel, prevMiles, nextMiles, profileId, vehicleId 
                 id="event-date"
                 name="event-date"
                 defaultValue={formattedDate}
+                min={minDateFormatted}
                 required
               />
             </label>

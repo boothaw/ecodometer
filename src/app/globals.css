@@ -17,6 +17,8 @@
   --yellow: #c8990a;
   --yellow-opacity: #c8990a33;
   --whiteish-opacity: #c8ccc133;
+  --color-error-btn: #b31e1b;
+  --color-error-btn-hover: #e62e34;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -152,6 +154,34 @@ h5 {
 
       & path {
         fill: var(--navy);
+      }
+    }
+  }
+}
+
+.btn.btn-error {
+  background-color: var(--color-error-btn);
+  color: var(--white);
+  outline: 0;
+  border: 0;
+  box-shadow: none;
+  transition: all ease-in-out 0.3s;
+  border: 6px double var(--color-error-btn);
+
+  &:hover {
+    background-color: var(--color-error-btn-hover);
+    border: 6px double var(--color-error-btn-hover);
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+    transition: all ease-in-out 0.3s;
+
+    path {
+      transition: all ease-in-out 0.3s;
+      &:first-of-type {
+        fill: #fff;
       }
     }
   }
