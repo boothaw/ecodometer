@@ -4,8 +4,7 @@ import { calcMpg } from "@/src/lib/mpg";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { RefuelCard } from "@/src/components/RefuelCard";
-import RefuelSection from "@/src/components/RefuelSection";
-import RefuelForm from "@/src/components/RefuelForm";
+import VehicleStats from "@/src/components/VehicleStats";
 
 
 export default async function VehiclePage({
@@ -58,22 +57,26 @@ export default async function VehiclePage({
   const baseline = { miles: baselineMiles, gallons: { toNumber: () => 0 } };
   const overallMpg = calcMpg([baseline, ...refuelsAsc]);
 
+  // Recent MPG: last 10 refuels + baseline from 11th
+  const recentSlice = refuels.slice(0, 10); // most recent 10 (desc order)
+  const baselineForRecent = refuels[10]; // 11th refuel provides baseline
+  const recentBaselineMiles = baselineForRecent?.miles ?? baselineMiles;
+  const recentBaseline = { miles: recentBaselineMiles, gallons: { toNumber: () => 0 } };
+  const recentMpg = calcMpg([recentBaseline, ...recentSlice.reverse()]);
+
   return (
     <>
     <div className="flex min-h-screen items-center justify-center font-body">
       <main className="flex min-h-screen md:max-w-xl flex-col items-center justify-between py-8 px-0 mx-auto w-[90%] sm:items-start">
         <div className="mx-auto w-full flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <div className="card card-body flex justify-between w-full items-center flex-col gap-2 overflow-hidden">
-              <h1 className="max-w-xs text-3xl font-semibold text-navy font-display text-center leading-none flex flex-col justify-center items-center">
-              <span className="animate-fade-in-right inline-block">{vehicle.name ?? "Vehicle"}</span>
-              <div className="flex items-center gap-1 mx-auto"><span className="text-yellow text-base">=</span> <span className="text-base inline-block ">{makeModel && `${makeModel}`}</span> <span className="text-yellow text-base">=</span></div>
-            </h1>
-            <div className="flex justify-center w-full items-center">
-                <h2 className="text-2xl text-center">{overallMpg ?? "—"} <span className="text-sm font-body font-bold">MPG</span></h2>
-            </div>
-          </div>
-
-          <RefuelSection vehicle={vehicle} profileId={profileIdNum} />
+          <VehicleStats
+            vehicleName={vehicle.name ?? null}
+            makeModel={makeModel}
+            overallMpg={overallMpg}
+            recentMpg={recentMpg}
+            vehicle={vehicle}
+            profileId={profileIdNum}
+          />
 
           {refuels.length === 0 ? (
             <p className="font-bold">No refuels yet.</p>
