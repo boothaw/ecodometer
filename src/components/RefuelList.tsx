@@ -54,6 +54,9 @@ export default function RefuelList({
   );
 
   const [loading, setLoading] = useState(false);
+  // Tracks which refuel card should animate its MPG after a save.
+  // Set optimistically on submit; cleared when RefuelList remounts (list key changes after RSC refresh).
+  const [justEditedId, setJustEditedId] = useState<number | null>(null);
 
   const shownCount = allItems.length;
   const hasMore = shownCount < totalCount;
@@ -100,6 +103,8 @@ export default function RefuelList({
                 prevDate={prevDate}
                 profileId={profileId}
                 vehicleId={vehicleId}
+                animate={refuel.id === justEditedId}
+                onSaved={() => setJustEditedId(refuel.id)}
               />
             </li>
           );
