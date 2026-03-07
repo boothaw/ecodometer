@@ -39,38 +39,54 @@ html.dark {
   --color-error-btn-hover: #e62e34;
 }
 
-html.dark .btn.btn-secondary {
-  background-color: #2a2f45;
-  border-color: #2a2f45;
-}
+html.dark {
+  .navbar {
+    background-color: var(--card-bg) !important;
+    border-bottom: 6px double var(--blue) !important;
+  }
+  .btn.btn-primary {
+    background-color: var(--navy);
+    border-color: var(--navy);
+    color: var(--white);
 
-html.dark .btn.btn-secondary:hover {
-  border-color: var(--yellow);
-}
+    & svg path:first-of-type {
+      fill: var(--blue);
+    }
+    & svg {
+      path {
+        stroke: var(--blue);
+      }
+    }
+  }
+  .btn.btn-primary:hover {
+    background-color: var(--orange);
+    border-color: var(--orange);
+    color: var(--navy);
 
-html.dark .btn.btn-primary {
-  background-color: #212651;
-  border-color: #212651;
-}
-
-html.dark .btn.btn-primary:hover {
-  background-color: var(--orange);
-  border-color: var(--orange);
-}
-
-html.dark .navbar {
-  background-color: var(--card-bg) !important;
-  border-bottom: 6px double var(--blue) !important;
-}
-
-/* Keep the ECOdometer wordmark dark regardless of theme */
-html.dark .linked-logo .eco {
-  color: #212651;
-}
-
-/* "Running From Empty" tagline is blue in dark mode */
-html.dark .home-tagline {
-  color: var(--blue);
+    & svg path:first-of-type {
+      fill: var(--navy);
+    }
+    & svg {
+      path {
+        stroke: var(--navy);
+      }
+    }
+  }
+  .btn.btn-secondary {
+    background-color: #2a2f45;
+    border-color: #2a2f45;
+  }
+  .btn.btn-secondary:hover {
+    border-color: var(--yellow);
+  }
+  .btn.btn-secondary.btn-ghost {
+    & svg path {
+      fill: var(--yellow);
+    }
+  }
+  .home-tagline {
+    color: var(--blue);
+  }
 }
 
 .navbar-start,
@@ -441,16 +457,20 @@ h5 {
 
 @keyframes rollUp {
   0% {
-    transform: translateY(40%);
-    opacity: 0;
+    transform: translateY(100%);
   }
   100% {
     transform: translateY(0);
-    opacity: 1;
   }
+}
+
+.mpg-roller {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: text-bottom;
 }
 
 .mpg-animate {
   display: inline-block;
-  animation: rollUp 0.45s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+  animation: rollUp 1s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
 }

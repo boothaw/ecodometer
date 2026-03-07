@@ -15,7 +15,7 @@ export function NavSkeleton() {
           <span className="text-yellow">=</span> <span className="eco">ECOdometer</span> <span className="text-yellow">=</span>
         </a>
       </div>
-      <div className="navbar-end gap-2">
+      <div className="navbar-end">
         <SkeletonButton white short />
       </div>
     </div>
@@ -33,10 +33,10 @@ export default async function Nav() {
   }
 
   return (
-    <div className="navbar bg-white shadow-sm">
-      <div className="navbar-start">
+    <div className="navbar bg-white shadow-sm ">
+      <div className="navbar-start gap-2">
         <SignedOut>
-          <Link className="btn btn-secondary" href={"/login"}>
+          <Link className="btn btn-secondary" aria-label="login" href={"/login"}>
           <svg
           className="w-6 h-6 text-gray-700"
             viewBox="0 1959 24 20" width="48" height="48"
@@ -53,6 +53,7 @@ export default async function Nav() {
         <SignedIn>
           <UserButton />
         </SignedIn>
+        <ThemeToggle />
       </div>
       <div className="navbar-center">
         <a href="/" className="text-xl font-display linked-logo">
@@ -60,7 +61,6 @@ export default async function Nav() {
         </a>
       </div>
       <div className="navbar-end">
-            <ThemeToggle />
             <SignedIn>
                 {profileId ? (
                 <Link className="btn btn-secondary" href={`/profile/${profileId}`} prefetch={false}>
@@ -109,7 +109,7 @@ export default async function Nav() {
                 )}
             </SignedIn>
             <SignedOut>                
-              <Link className="btn btn-secondary" href="/login">
+              <Link className="btn btn-secondary" href="/login" aria-label="login">
                     <svg
                     version="1.0"
                     id="Layer_1"

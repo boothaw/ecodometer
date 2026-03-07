@@ -47,8 +47,10 @@ export default function VehicleStats({
         </h1>
         <div className="flex justify-center w-full items-center">
           <h2 className="text-2xl text-center">
-            <span key={activeMpg ?? "null"} className="mpg-animate">
-              {activeMpg ?? "—"}
+            <span className="mpg-roller">
+              <span key={activeMpg ?? "null"} className="mpg-animate">
+                {activeMpg ?? "—"}
+              </span>
             </span>{" "}
             <span className="text-sm font-body font-bold">MPG</span>
           </h2>
