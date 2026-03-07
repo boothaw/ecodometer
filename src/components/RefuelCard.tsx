@@ -17,11 +17,9 @@ type RefuelCardProps = {
   prevDate: Date | null
   profileId: number
   vehicleId: number
-  animate?: boolean
-  onSaved?: () => void
 }
 
-export function RefuelCard({ refuel, prevMiles, nextMiles, prevDate, profileId, vehicleId, animate, onSaved }: RefuelCardProps) {
+export function RefuelCard({ refuel, prevMiles, nextMiles, prevDate, profileId, vehicleId }: RefuelCardProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   const mpgValue =
@@ -59,7 +57,7 @@ export function RefuelCard({ refuel, prevMiles, nextMiles, prevDate, profileId, 
       <div className="card card-border w-full refuel-form-enter">
         <div className="card-body text-left">
           <h3 className="text-lg font-semibold text-navy font-display card-title">Edit Fill Up</h3>
-          <form action={editRefuel} className="flex flex-col gap-3 form" onSubmit={() => { onSaved?.(); setIsEditing(false); }}>
+          <form action={editRefuel} className="flex flex-col gap-3 form" onSubmit={() => setIsEditing(false)}>
             <input type="hidden" name="refuelId" value={refuel.id} />
             <input type="hidden" name="vehicleId" value={vehicleId} />
             <label className="form-control w-full">
@@ -124,7 +122,7 @@ export function RefuelCard({ refuel, prevMiles, nextMiles, prevDate, profileId, 
     <div className="card card-border w-full">
         <div className="card-body">
             <div className="card-title justify-between gap-6 items-center">
-                <h3 className="text-2xl text-left"><span key={animate ? `${refuel.id}-${mpg}` : "static"} className={animate ? "mpg-animate" : ""}>{mpg ?? "--"}</span> <span className="text-sm font-body font-bold">MPG</span></h3>
+                <h3 className="text-2xl text-left"><span key={mpg ?? "null"} className="mpg-animate">{mpg ?? "--"}</span> <span className="text-sm font-body font-bold">MPG</span></h3>
                 <p className="text-right font-extrabold text-sm">{milesDisplay} mi</p>
             </div>
             <div className="flex justify-between gap-2">

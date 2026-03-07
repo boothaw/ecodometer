@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RefuelCard } from "./RefuelCard";
 import { loadMoreRefuels } from "@/src/actions/refuels";
 
@@ -22,9 +22,6 @@ type ContextInfo = {
 };
 
 type Props = {
-  // Server sends up to 11 items: first 10 to render + 1 as prevMiles context.
-  // The key prop on this component (set in the parent page) forces a full
-  // remount whenever the server-rendered data changes, discarding stale state.
   initialRefuels: SerializedRefuel[];
   totalCount: number;
   vehicleId: number;
@@ -41,12 +38,10 @@ export default function RefuelList({
 }: Props) {
   const initialShown = Math.min(BATCH, totalCount);
 
-  // allItems holds only rendered items — the context entry (+1) is stored separately.
   const [allItems, setAllItems] = useState<SerializedRefuel[]>(
     initialRefuels.slice(0, initialShown)
   );
 
-  // oldestContext gives prevMiles/prevDate for the oldest rendered item.
   const [oldestContext, setOldestContext] = useState<ContextInfo | null>(
     initialRefuels[initialShown]
       ? { miles: initialRefuels[initialShown].miles, date: initialRefuels[initialShown].date }
@@ -54,9 +49,26 @@ export default function RefuelList({
   );
 
   const [loading, setLoading] = useState(false);
-  // Tracks which refuel card should animate its MPG after a save.
-  // Set optimistically on submit; cleared when RefuelList remounts (list key changes after RSC refresh).
-  const [justEditedId, setJustEditedId] = useState<number | null>(null);
+
+  // When the server delivers fresh initialRefuels (after an edit via revalidatePath),
+  // patch only the items that changed. This keeps load-more items intact while
+  // allowing individual card MPG spans (key={mpg}) to detect the value change and
+  // replay their animation — the same mechanism VehicleStats uses for the total MPG.
+  const refuelKey = initialRefuels.map((r) => `${r.id}:${r.miles}:${r.gallons}`).join("|");
+  useEffect(() => {
+    setAllItems((prev) =>
+      prev.map((item) => {
+        const fresh = initialRefuels.find((r) => r.id === item.id);
+        return fresh ?? item;
+      })
+    );
+    // Re-derive the context entry (11th item) from fresh server data.
+    const freshContext = initialRefuels[initialShown];
+    setOldestContext(
+      freshContext ? { miles: freshContext.miles, date: freshContext.date } : null
+    );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refuelKey]);
 
   const shownCount = allItems.length;
   const hasMore = shownCount < totalCount;
@@ -65,7 +77,6 @@ export default function RefuelList({
     setLoading(true);
     try {
       const more = await loadMoreRefuels(vehicleId, shownCount);
-      // more has up to BATCH+1 items: BATCH to render, 1 for the new context entry.
       const newItems = more.slice(0, BATCH);
       const newContext = more[BATCH]
         ? { miles: more[BATCH].miles, date: more[BATCH].date }
@@ -103,8 +114,6 @@ export default function RefuelList({
                 prevDate={prevDate}
                 profileId={profileId}
                 vehicleId={vehicleId}
-                animate={refuel.id === justEditedId}
-                onSaved={() => setJustEditedId(refuel.id)}
               />
             </li>
           );

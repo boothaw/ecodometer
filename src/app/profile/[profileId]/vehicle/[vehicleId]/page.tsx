@@ -106,7 +106,6 @@ export default async function VehiclePage({
             <p className="font-bold">No refuels yet.</p>
           ) : (
             <RefuelList
-              key={serializedRefuels.map((r) => `${r.id}:${r.miles}:${r.gallons}`).join("|")}
               initialRefuels={serializedRefuels}
               totalCount={totalCount}
               vehicleId={vehicleIdNum}
