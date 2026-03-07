@@ -11,18 +11,41 @@ type RefuelSectionProps = {
     gallons?: number | null;
   };
   profileId: number;
+  mpgMode: "total" | "recent";
+  onToggleMpg: () => void;
+  hasRecentMpg: boolean;
 };
 
-export default function RefuelSection({ vehicle, profileId }: RefuelSectionProps) {
+export default function RefuelSection({
+  vehicle,
+  profileId,
+  mpgMode,
+  onToggleMpg,
+  hasRecentMpg,
+}: RefuelSectionProps) {
   const [open, setOpen] = useState(false);
 
   return (
     <div className="w-full">
-      <div className="flex justify-between w-full items-center">
-        <h3 className="text-lg text-left font-body font-bold">Need To Fill Up?</h3>
+      <div className="flex justify-between w-full items-center gap-2">
         <button
           type="button"
-          className="btn btn-secondary "
+          className="btn btn-secondary text-xs"
+          onClick={onToggleMpg}
+          disabled={!hasRecentMpg}
+          title={
+            mpgMode === "total"
+              ? "Showing total MPG — click for recent"
+              : "Showing recent MPG — click for total"
+          }
+        >
+          <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="50px" height="50px"><path d="M 25 2 C 12.264481 2 2 12.264481 2 25 C 2 37.735519 12.264481 48 25 48 C 37.735519 48 48 37.735519 48 25 C 48 12.264481 37.735519 2 25 2 z M 25 4 C 36.664481 4 46 13.335519 46 25 C 46 36.664481 36.664481 46 25 46 C 13.335519 46 4 36.664481 4 25 C 4 13.335519 13.335519 4 25 4 z M 25 11 A 3 3 0 0 0 25 17 A 3 3 0 0 0 25 11 z M 21 21 L 21 23 L 23 23 L 23 36 L 21 36 L 21 38 L 29 38 L 29 36 L 27 36 L 27 21 L 21 21 z"/></svg>
+        </button>
+        <h3 className="text-lg font-body font-bold flex-1 text-left">{mpgMode === "total" ? "Total MPG" : "Recent MPG"}</h3>
+        <h3 className="text-lg font-body font-bold flex-1 text-right">Fill Up</h3>
+        <button
+          type="button"
+          className="btn btn-secondary"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
         >

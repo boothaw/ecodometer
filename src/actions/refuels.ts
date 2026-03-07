@@ -106,3 +106,32 @@ export async function editRefuel(formData: FormData) {
   revalidatePath(`/profile/${vehicle.ownerId}`);
   revalidatePath(`/profile`, "layout");
 }
+
+type RawRefuel = {
+  id: number;
+  vehicleId: number;
+  miles: number;
+  gallons: { toNumber: () => number };
+  date: Date;
+  note: string | null;
+  createdAt: Date;
+};
+
+export async function loadMoreRefuels(vehicleId: number, skip: number) {
+  const vehicle = await getVehicleIfOwnedByCurrentUser(vehicleId);
+  if (!vehicle) throw new Error("Unauthorized");
+
+  const refuels = await prisma.refuel.findMany({
+    where: { vehicleId },
+    orderBy: [{ miles: "desc" }, { date: "desc" }],
+    take: 11,
+    skip,
+  });
+
+  return (refuels as RawRefuel[]).map((r) => ({
+    ...r,
+    gallons: r.gallons.toNumber(),
+    date: r.date.toISOString(),
+    createdAt: r.createdAt.toISOString(),
+  }));
+}
