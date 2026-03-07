@@ -19,6 +19,7 @@
   --whiteish-opacity: #c8ccc133;
   --color-error-btn: #b31e1b;
   --color-error-btn-hover: #e62e34;
+  --card-bg: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,6 +27,29 @@
     /* --white: #0a0a0a;
     --navy: #e4e8dd; */
   }
+}
+
+html.dark {
+  --white: #1a1d2e;
+  --navy: #c8ccc1;
+  --card-bg: #252a3a;
+  --whiteish-opacity: rgba(200, 204, 193, 0.1);
+  --yellow-opacity: #c8990a33;
+  --color-error-btn: #b31e1b;
+  --color-error-btn-hover: #e62e34;
+}
+
+html.dark .btn.btn-secondary {
+  background-color: #2a2f45;
+  border-color: #2a2f45;
+}
+
+html.dark .btn.btn-secondary:hover {
+  border-color: var(--yellow);
+}
+
+html.dark .navbar {
+  border-bottom: 6px double var(--blue) !important;
 }
 
 /* generic */
@@ -137,13 +161,13 @@ h5 {
 }
 
 .btn.btn-secondary {
-  background-color: #fff;
+  background-color: var(--card-bg);
   color: var(--navy);
   outline: 0;
   border: 0;
   box-shadow: none;
   transition: all ease-in-out 0.3s;
-  border: 6px double #fff;
+  border: 6px double var(--card-bg);
 
   &:hover {
     /* background-color: var(--yellow); */
@@ -203,7 +227,7 @@ h5 {
 /* components */
 
 .card {
-  background-color: #fff;
+  background-color: var(--card-bg);
   border: none;
 }
 
@@ -265,7 +289,7 @@ h5 {
 }
 
 .skeleton.skeleton-title {
-  background: #fff;
+  background: var(--card-bg);
 }
 .skeleton:not(.skeleton-btn) + .skeleton:not(.skeleton-btn) {
   width: 100%;

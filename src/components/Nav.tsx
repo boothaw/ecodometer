@@ -2,6 +2,7 @@ import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { getProfileForCurrentUser } from "@/src/lib/profile";
 import { SkeletonButton } from "@/src/components/Skeleton";
+import ThemeToggle from "./ThemeToggle";
 
 export function NavSkeleton() {
   return (
@@ -59,6 +60,7 @@ export default async function Nav() {
         </a>
       </div>
       <div className="navbar-end">
+            <ThemeToggle />
             <SignedIn>
                 {profileId ? (
                 <Link className="btn btn-secondary" href={`/profile/${profileId}`} prefetch={false}>
