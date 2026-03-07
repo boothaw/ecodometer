@@ -1,7 +1,6 @@
 import { getProfileForCurrentUser, getVehicleIfOwnedByCurrentUser } from "@/src/lib/profile";
 import { prisma } from "@/src/lib/db";
 import { calcMpg } from "@/src/lib/mpg";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import RefuelList from "@/src/components/RefuelList";
 import VehicleStats from "@/src/components/VehicleStats";
