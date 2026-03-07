@@ -54,7 +54,7 @@ export function RefuelCard({ refuel, prevMiles, nextMiles, prevDate, profileId, 
 
   if (isEditing) {
     return (
-      <div className="card card-border w-full bg-white refuel-form-enter">
+      <div className="card card-border w-full refuel-form-enter">
         <div className="card-body text-left">
           <h3 className="text-lg font-semibold text-navy font-display card-title">Edit Fill Up</h3>
           <form action={editRefuel} className="flex flex-col gap-3 form" onSubmit={() => setIsEditing(false)}>
@@ -104,7 +104,7 @@ export function RefuelCard({ refuel, prevMiles, nextMiles, prevDate, profileId, 
                 defaultValue={refuel.note ?? ""}
                 placeholder="Optional note..."
                 maxLength={75}
-                className="textarea textarea-bordered w-full font-body bg-white"
+                className="textarea textarea-bordered w-full font-body"
                 rows={2}
               />
             </label>
@@ -119,7 +119,7 @@ export function RefuelCard({ refuel, prevMiles, nextMiles, prevDate, profileId, 
   }
 
   return (
-    <div className="card card-border w-full bg-white">
+    <div className="card card-border w-full">
         <div className="card-body">
             <div className="card-title justify-between gap-6 items-center">
                 <h3 className="text-2xl text-left">{mpg ?? "--"} <span className="text-sm font-body font-bold">MPG</span></h3>
@@ -148,7 +148,7 @@ export function RefuelCard({ refuel, prevMiles, nextMiles, prevDate, profileId, 
 
 export function SkeletonRefuelCard() {
   return (
-    <div className="card card-border w-full bg-white">
+    <div className="card card-border w-full">
       <div className="card-body">
         <div className="card-title justify-between gap-6 items-center">
           <Skeleton short />

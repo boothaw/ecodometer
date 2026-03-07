@@ -48,8 +48,38 @@ html.dark .btn.btn-secondary:hover {
   border-color: var(--yellow);
 }
 
+html.dark .btn.btn-primary {
+  background-color: #212651;
+  border-color: #212651;
+}
+
+html.dark .btn.btn-primary:hover {
+  background-color: var(--orange);
+  border-color: var(--orange);
+}
+
 html.dark .navbar {
+  background-color: var(--card-bg) !important;
   border-bottom: 6px double var(--blue) !important;
+}
+
+/* Keep the ECOdometer wordmark dark regardless of theme */
+html.dark .linked-logo .eco {
+  color: #212651;
+}
+
+/* "Running From Empty" tagline is blue in dark mode */
+html.dark .home-tagline {
+  color: var(--blue);
+}
+
+.navbar-start,
+.navbar-end {
+  width: 45%;
+}
+
+.navbar-end {
+  /* gap: 2; */
 }
 
 /* generic */
@@ -169,6 +199,15 @@ h5 {
   transition: all ease-in-out 0.3s;
   border: 6px double var(--card-bg);
 
+  /* All SVGs inside secondary buttons use the blue colour, matching the fill-up button */
+  & svg {
+    fill: var(--blue);
+  }
+
+  & svg path {
+    fill: var(--blue);
+  }
+
   &:hover {
     /* background-color: var(--yellow); */
     border-color: var(--yellow);
@@ -181,6 +220,11 @@ h5 {
       }
     }
   }
+}
+
+.btn.btn-secondary.btn-ghost {
+  background-color: var(--white);
+  border-color: var(--white);
 }
 
 .btn.btn-error {
@@ -375,17 +419,6 @@ h5 {
   }
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @keyframes slideUp {
   from {
     opacity: 1;
@@ -395,43 +428,6 @@ h5 {
     opacity: 0;
     transform: translateY(-8px);
   }
-}
-@keyframes driveRight {
-  0% {
-    transform: translateX(0) scale(0.9);
-    opacity: 0.75;
-  }
-
-  50% {
-    transform: translateX(50%) scale(1);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateX(100%) scale(0.85);
-    opacity: 0;
-  }
-}
-@keyframes ecoTakeoff {
-  /* 0% {
-    transform: translateY(0) skewX(0deg) scale(1);
-  }
-
-  20% {
-    transform: translateY(-2px) skewX(-6deg) scale(1.03);
-  }
-
-  35% {
-    transform: translateY(-3px) skewX(-8deg) scale(1.05);
-  }
-
-  55% {
-    transform: translateY(-1px) skewX(-3deg) scale(1.02);
-  }
-
-  100% {
-    transform: translateY(0) skewX(0deg) scale(1);
-  } */
 }
 
 @keyframes skeleton {

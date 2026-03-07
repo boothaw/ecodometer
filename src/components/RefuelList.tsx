@@ -4,6 +4,8 @@ import { useState } from "react";
 import { RefuelCard } from "./RefuelCard";
 import { loadMoreRefuels } from "@/src/actions/refuels";
 
+const BATCH = 10;
+
 type SerializedRefuel = {
   id: number;
   vehicleId: number;
@@ -14,8 +16,16 @@ type SerializedRefuel = {
   createdAt: string;
 };
 
+type ContextInfo = {
+  miles: number;
+  date: string | null;
+};
+
 type Props = {
-  initialRefuels: SerializedRefuel[]; // first 11 (10 to show + 1 for prevMiles)
+  // Server sends up to 11 items: first 10 to render + 1 as prevMiles context.
+  // The key prop on this component (set in the parent page) forces a full
+  // remount whenever the server-rendered data changes, discarding stale state.
+  initialRefuels: SerializedRefuel[];
   totalCount: number;
   vehicleId: number;
   profileId: number;
@@ -29,44 +39,57 @@ export default function RefuelList({
   profileId,
   initialMiles,
 }: Props) {
-  const [refuels, setRefuels] = useState(initialRefuels);
+  const initialShown = Math.min(BATCH, totalCount);
+
+  // allItems holds only rendered items — the context entry (+1) is stored separately.
+  const [allItems, setAllItems] = useState<SerializedRefuel[]>(
+    initialRefuels.slice(0, initialShown)
+  );
+
+  // oldestContext gives prevMiles/prevDate for the oldest rendered item.
+  const [oldestContext, setOldestContext] = useState<ContextInfo | null>(
+    initialRefuels[initialShown]
+      ? { miles: initialRefuels[initialShown].miles, date: initialRefuels[initialShown].date }
+      : null
+  );
+
   const [loading, setLoading] = useState(false);
 
-  // How many are actually rendered (not the context +1)
-  const shownCount = Math.min(refuels.length, totalCount);
+  const shownCount = allItems.length;
   const hasMore = shownCount < totalCount;
 
   async function handleLoadMore() {
     setLoading(true);
     try {
-      // skip = number of refuels already shown (not counting the context +1)
-      const shown = Math.min(refuels.length, totalCount);
-      const more = await loadMoreRefuels(vehicleId, shown);
-      // Keep all "real" items plus append new batch
-      setRefuels((prev) => {
-        const realPrev = prev.slice(0, shown);
-        return [...realPrev, ...more];
-      });
+      const more = await loadMoreRefuels(vehicleId, shownCount);
+      // more has up to BATCH+1 items: BATCH to render, 1 for the new context entry.
+      const newItems = more.slice(0, BATCH);
+      const newContext = more[BATCH]
+        ? { miles: more[BATCH].miles, date: more[BATCH].date }
+        : null;
+
+      setAllItems((prev) => [...prev, ...newItems]);
+      setOldestContext(newContext);
     } finally {
       setLoading(false);
     }
   }
 
-  const renderedRefuels = refuels.slice(0, Math.min(totalCount, refuels.length));
-  // The context entry (for prevMiles of oldest rendered) is refuels[renderedRefuels.length]
-
   return (
     <div className="flex flex-col gap-4 w-full">
       <ul className="flex flex-col gap-4 w-full">
-        {renderedRefuels.map((refuel, i) => {
-          const isOldest = i === renderedRefuels.length - 1;
-          // The entry just beyond the rendered list (context entry) gives prevMiles for oldest
-          const contextEntry = refuels[renderedRefuels.length];
+        {allItems.map((refuel, i) => {
+          const isOldest = i === allItems.length - 1;
+
           const prevMiles = isOldest
-            ? (contextEntry?.miles ?? initialMiles)
-            : refuels[i + 1]?.miles ?? null;
-          const nextMiles = i === 0 ? null : refuels[i - 1]?.miles ?? null;
-          const prevDate = refuels[i + 1]?.date ? new Date(refuels[i + 1].date) : null;
+            ? (oldestContext?.miles ?? initialMiles)
+            : allItems[i + 1].miles;
+
+          const nextMiles = i === 0 ? null : allItems[i - 1].miles;
+
+          const prevDate = isOldest
+            ? (oldestContext?.date ? new Date(oldestContext.date) : null)
+            : new Date(allItems[i + 1].date);
 
           return (
             <li key={refuel.id}>
@@ -86,7 +109,7 @@ export default function RefuelList({
       {hasMore && (
         <button
           type="button"
-          className="btn btn-primary w-full"
+          className="btn btn-primary mx-auto"
           onClick={handleLoadMore}
           disabled={loading}
         >

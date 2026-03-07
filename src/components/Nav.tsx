@@ -15,7 +15,7 @@ export function NavSkeleton() {
           <span className="text-yellow">=</span> <span className="eco">ECOdometer</span> <span className="text-yellow">=</span>
         </a>
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end gap-2">
         <SkeletonButton white short />
       </div>
     </div>
