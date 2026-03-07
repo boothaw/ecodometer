@@ -442,3 +442,19 @@ h5 {
     opacity: 1;
   }
 }
+
+@keyframes rollUp {
+  0% {
+    transform: translateY(40%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.mpg-animate {
+  display: inline-block;
+  animation: rollUp 0.45s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+}

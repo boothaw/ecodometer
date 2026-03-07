@@ -11,18 +11,40 @@ type RefuelSectionProps = {
     gallons?: number | null;
   };
   profileId: number;
+  mpgMode: "total" | "recent";
+  onToggleMpg: () => void;
+  hasRecentMpg: boolean;
 };
 
-export default function RefuelSection({ vehicle, profileId }: RefuelSectionProps) {
+export default function RefuelSection({
+  vehicle,
+  profileId,
+  mpgMode,
+  onToggleMpg,
+  hasRecentMpg,
+}: RefuelSectionProps) {
   const [open, setOpen] = useState(false);
 
   return (
     <div className="w-full">
-      <div className="flex justify-between w-full items-center">
-        <h3 className="text-lg text-left font-body font-bold">Need To Fill Up?</h3>
+      <div className="flex justify-between w-full items-center gap-2">
         <button
           type="button"
-          className="btn btn-secondary "
+          className="btn btn-secondary text-xs"
+          onClick={onToggleMpg}
+          disabled={!hasRecentMpg}
+          title={
+            mpgMode === "total"
+              ? "Showing total MPG — click for recent"
+              : "Showing recent MPG — click for total"
+          }
+        >
+          {mpgMode === "total" ? "Total" : "Recent"}
+        </button>
+        <h3 className="text-lg font-body font-bold flex-1 text-left">fill up?</h3>
+        <button
+          type="button"
+          className="btn btn-secondary"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
         >
