@@ -3,9 +3,19 @@ import { prisma } from "@/src/lib/db";
 import { calcMpg } from "@/src/lib/mpg";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { RefuelCard } from "@/src/components/RefuelCard";
 import RefuelSection from "@/src/components/RefuelSection";
-import RefuelForm from "@/src/components/RefuelForm";
+import RefuelList from "@/src/components/RefuelList";
+
+type RawRefuel = {
+  id: number;
+  vehicleId: number;
+  miles: number;
+  gallons: { toNumber: () => number };
+  date: Date;
+  note: string | null;
+  createdAt: Date;
+};
+
 
 
 export default async function VehiclePage({
@@ -42,21 +52,36 @@ export default async function VehiclePage({
 
   const makeModel = [vehicle.make, vehicle.model].filter(Boolean).join(" ") || "—";
 
-  const refuels = await prisma.refuel.findMany({
-    where: { vehicleId: vehicle.id },
-    orderBy: [{ miles: "desc" }, { date: "desc" }],
-  });
+  const [refuels, totalCount, allRefuelsForMpg] = await Promise.all([
+    prisma.refuel.findMany({
+      where: { vehicleId: vehicle.id },
+      orderBy: [{ miles: "desc" }, { date: "desc" }],
+      take: 11,
+    }),
+    prisma.refuel.count({ where: { vehicleId: vehicle.id } }),
+    prisma.refuel.findMany({
+      where: { vehicleId: vehicle.id },
+      orderBy: [{ miles: "asc" }, { date: "asc" }],
+      select: { miles: true, gallons: true },
+    }),
+  ]);
 
-  // calcMpg expects asc order; refuels are fetched desc, so reverse a copy.
+  // calcMpg expects asc order; allRefuelsForMpg is already asc.
   // Prepend a synthetic baseline using vehicle.miles so the first refuel shows MPG.
-  const refuelsAsc = [...refuels].reverse();
   const initialMiles = vehicle.initialMiles ?? vehicle.miles;
   const baselineMiles =
-    refuelsAsc.length > 0
-      ? Math.min(initialMiles, refuelsAsc[0].miles)
+    allRefuelsForMpg.length > 0
+      ? Math.min(initialMiles, allRefuelsForMpg[0].miles)
       : initialMiles;
   const baseline = { miles: baselineMiles, gallons: { toNumber: () => 0 } };
-  const overallMpg = calcMpg([baseline, ...refuelsAsc]);
+  const overallMpg = calcMpg([baseline, ...allRefuelsForMpg]);
+
+  const serializedRefuels = (refuels as RawRefuel[]).map((r) => ({
+    ...r,
+    gallons: r.gallons.toNumber(),
+    date: r.date.toISOString(),
+    createdAt: r.createdAt.toISOString(),
+  }));
 
   return (
     <>
@@ -75,34 +100,16 @@ export default async function VehiclePage({
 
           <RefuelSection vehicle={vehicle} profileId={profileIdNum} />
 
-          {refuels.length === 0 ? (
+          {totalCount === 0 ? (
             <p className="font-bold">No refuels yet.</p>
           ) : (
-            <ul className="flex flex-col gap-4 w-full">
-              {refuels.map((refuel, i) => {
-                const isOldest = i === refuels.length - 1;
-                const prevMiles = isOldest
-                  ? initialMiles
-                  : refuels[i + 1]?.miles ?? null;
-                const nextMiles = i === 0 ? null : refuels[i - 1]?.miles ?? null;
-                // refuels are sorted desc by miles; the entry at i+1 has lower
-                // miles and is therefore the chronologically prior refuel.
-                const prevDate = refuels[i + 1]?.date ?? null;
-
-                return (
-                  <li key={refuel.id}>
-                    <RefuelCard
-                      refuel={{ ...refuel, gallons: refuel.gallons.toNumber() }}
-                      prevMiles={prevMiles}
-                      nextMiles={nextMiles}
-                      prevDate={prevDate}
-                      profileId={profileIdNum}
-                      vehicleId={vehicleIdNum}
-                    />
-                  </li>
-                );
-              })}
-            </ul>
+            <RefuelList
+              initialRefuels={serializedRefuels}
+              totalCount={totalCount}
+              vehicleId={vehicleIdNum}
+              profileId={profileIdNum}
+              initialMiles={initialMiles}
+            />
           )}
         </div>
       </main>
