@@ -80,6 +80,7 @@ html.dark {
     border-color: var(--yellow);
   }
   .btn.btn-secondary.btn-ghost {
+    background-color: transparent;
     & svg path {
       fill: var(--yellow);
     }
@@ -87,11 +88,14 @@ html.dark {
   .home-tagline {
     color: var(--blue);
   }
+  .textarea {
+    background-color: var(--white);
+  }
 }
 
 .navbar-start,
 .navbar-end {
-  width: 45%;
+  width: 40%;
 }
 
 .navbar-end {
@@ -124,7 +128,7 @@ body {
 }
 
 .linked-logo {
-  padding: 0 10px;
+  padding: 0px;
   transition: 0.3s all ease-in-out;
   position: relative;
   display: inline-block;
@@ -157,7 +161,7 @@ h5 {
 }
 
 .btn {
-  padding: 5px 10px;
+  padding: 5px;
   font-size: 12px;
   display: flex;
   justify-content: center;
@@ -239,8 +243,9 @@ h5 {
 }
 
 .btn.btn-secondary.btn-ghost {
-  background-color: var(--white);
-  border-color: var(--white);
+  background-color: transparent;
+  border: none;
+  padding: 5px;
 }
 
 .btn.btn-error {
@@ -319,7 +324,8 @@ h5 {
 }
 
 .form {
-  input {
+  input,
+  .textarea {
     background-color: var(--white);
   }
 }
