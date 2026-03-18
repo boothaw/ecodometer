@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { newRefuel } from "../actions/refuels";
 
 type RefuelFormProps = {
@@ -17,9 +18,15 @@ export default function RefuelForm({ vehicle, profileId, onClose }: RefuelFormPr
   const now = new Date();
   const pad = (n: number) => n.toString().padStart(2, "0");
   const formattedDate = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
-  const vehicleMiles = vehicle.miles ?? undefined;
 
+  const [miles, setMiles] = useState("");
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
+  async function handleCameraChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    // TODO: convert to base64, POST to /api/ocr-miles, then call setMiles(result)
+  }
 
   return (
     <div className="flex items-center justify-center font-body w-full mt-4">
@@ -29,16 +36,38 @@ export default function RefuelForm({ vehicle, profileId, onClose }: RefuelFormPr
         </h3>
         <form action={newRefuel} className="flex flex-col gap-3 form">
           <input type="hidden" name="vehicleId" value={vehicle.id} />
+          <input
+            ref={cameraInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            className="hidden"
+            onChange={handleCameraChange}
+          />
           <label className="form-control w-full">
             <span className="label-text">Total Miles</span>
-            <input
-              type="number"
-              name="miles"
-              placeholder={(vehicle.miles ?? undefined)?.toString()}
-              min={(vehicle.miles != null ? vehicle.miles + 1 : undefined)}
-              required
-              className="input input-bordered w-full"
-            />
+            <div className="flex gap-2">
+              <input
+                type="number"
+                name="miles"
+                placeholder={(vehicle.miles ?? undefined)?.toString()}
+                min={(vehicle.miles != null ? vehicle.miles + 1 : undefined)}
+                value={miles}
+                onChange={(e) => setMiles(e.target.value)}
+                required
+                className="input input-bordered flex-1"
+              />
+              <button
+                type="button"
+                className="btn btn-square btn-outline"
+                onClick={() => cameraInputRef.current?.click()}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                  <circle cx="12" cy="13" r="4"/>
+                </svg>
+              </button>
+            </div>
           </label>
           <label className="form-control w-full">
             <span className="label-text">Gallons Used</span>

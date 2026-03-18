@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Skeleton, SkeletonButton } from "./Skeleton";
 import { editRefuel } from "../actions/refuels";
 
@@ -21,6 +21,14 @@ type RefuelCardProps = {
 
 export function RefuelCard({ refuel, prevMiles, nextMiles, prevDate, profileId, vehicleId }: RefuelCardProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const [editMiles, setEditMiles] = useState(String(refuel.miles));
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+
+  async function handleCameraChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    // TODO: convert to base64, POST to /api/ocr-miles, then call setEditMiles(result)
+  }
 
   const mpgValue =
     prevMiles != null
@@ -60,17 +68,38 @@ export function RefuelCard({ refuel, prevMiles, nextMiles, prevDate, profileId, 
           <form action={editRefuel} className="flex flex-col gap-3 form" onSubmit={() => setIsEditing(false)}>
             <input type="hidden" name="refuelId" value={refuel.id} />
             <input type="hidden" name="vehicleId" value={vehicleId} />
+            <input
+              ref={cameraInputRef}
+              type="file"
+              accept="image/*"
+              capture="environment"
+              className="hidden"
+              onChange={handleCameraChange}
+            />
             <label className="form-control w-full">
               <span className="label-text">Total Miles</span>
-              <input
-                type="number"
-                name="miles"
-                defaultValue={refuel.miles}
-                min={milesMin}
-                max={milesMax}
-                required
-                className="input input-bordered w-full"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="number"
+                  name="miles"
+                  value={editMiles}
+                  onChange={(e) => setEditMiles(e.target.value)}
+                  min={milesMin}
+                  max={milesMax}
+                  required
+                  className="input input-bordered flex-1"
+                />
+                <button
+                  type="button"
+                  className="btn btn-square btn-outline"
+                  onClick={() => cameraInputRef.current?.click()}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                    <circle cx="12" cy="13" r="4"/>
+                  </svg>
+                </button>
+              </div>
             </label>
             <label className="form-control w-full">
               <span className="label-text">Gallons Used</span>
