@@ -81,6 +81,9 @@ html.dark {
   }
   .btn.btn-secondary.btn-ghost {
     background-color: transparent;
+    border: none;
+    padding: 5px;
+
     & svg path {
       fill: var(--yellow);
     }
@@ -278,6 +281,7 @@ h5 {
 
 /* navigation */
 .navbar {
+  justify-content: center;
   border-bottom: 6px double var(--blue) !important;
 }
 

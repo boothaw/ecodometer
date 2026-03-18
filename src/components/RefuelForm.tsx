@@ -39,6 +39,7 @@ export default function RefuelForm({ vehicle, profileId, onClose }: RefuelFormPr
               required
               className="input input-bordered w-full"
             />
+            <input type="file" accept="image/*" capture="environment"></input>
           </label>
           <label className="form-control w-full">
             <span className="label-text">Gallons Used</span>
