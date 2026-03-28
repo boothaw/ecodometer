@@ -2,30 +2,48 @@
 
 import { useRef, useState } from "react";
 import { newRefuel } from "../actions/refuels";
+import { ocrMiles } from "../actions/ocr";
 
 type RefuelFormProps = {
   vehicle: {
-    id: number
-    miles?: number | null
-    date?: Date | null
-    gallons?: number | null
-  }
-  profileId: number
-  onClose?: () => void
-}
+    id: number;
+    miles?: number | null;
+    date?: Date | null;
+    gallons?: number | null;
+  };
+  profileId: number;
+  onClose?: () => void;
+};
 
-export default function RefuelForm({ vehicle, profileId, onClose }: RefuelFormProps) {
+export default function RefuelForm({
+  vehicle,
+  profileId,
+  onClose,
+}: RefuelFormProps) {
   const now = new Date();
   const pad = (n: number) => n.toString().padStart(2, "0");
   const formattedDate = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 
   const [miles, setMiles] = useState("");
   const cameraInputRef = useRef<HTMLInputElement>(null);
+  const [ocrLoading, setOcrLoading] = useState(false);
+  const [ocrError, setOcrError] = useState<string | null>(null);
 
   async function handleCameraChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    // TODO: convert to base64, POST to /api/ocr-miles, then call setMiles(result)
+    setOcrLoading(true);
+    setOcrError(null);
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64 = (reader.result as string).split(",")[1];
+      const result = await ocrMiles(base64, file.type); // Server Action import
+      if (result.miles)
+        setMiles(String(result.miles)); // or setEditMiles
+      else setOcrError("Couldn't read odometer — enter manually");
+      setOcrLoading(false);
+    };
+    reader.readAsDataURL(file);
   }
 
   return (
@@ -51,7 +69,7 @@ export default function RefuelForm({ vehicle, profileId, onClose }: RefuelFormPr
                 type="number"
                 name="miles"
                 placeholder={(vehicle.miles ?? undefined)?.toString()}
-                min={(vehicle.miles != null ? vehicle.miles + 1 : undefined)}
+                min={vehicle.miles != null ? vehicle.miles + 1 : undefined}
                 value={miles}
                 onChange={(e) => setMiles(e.target.value)}
                 required
@@ -62,9 +80,18 @@ export default function RefuelForm({ vehicle, profileId, onClose }: RefuelFormPr
                 className="btn btn-square btn-outline"
                 onClick={() => cameraInputRef.current?.click()}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                  <circle cx="12" cy="13" r="4"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-5 h-5"
+                >
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                  <circle cx="12" cy="13" r="4" />
                 </svg>
               </button>
             </div>
@@ -108,7 +135,11 @@ export default function RefuelForm({ vehicle, profileId, onClose }: RefuelFormPr
               Add Fill Up
             </button>
             {onClose && (
-              <button type="button" className="btn btn-secondary" onClick={onClose}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={onClose}
+              >
                 Cancel
               </button>
             )}
