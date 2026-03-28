@@ -3,7 +3,6 @@
 import { useRef, useState } from "react";
 import { newRefuel } from "../actions/refuels";
 import { ocrMiles } from "../actions/ocr";
-import Tesseract from "tesseract.js";
 
 type RefuelFormProps = {
   vehicle: {
@@ -53,7 +52,7 @@ export default function RefuelForm({
     setOcrLoading(true);
     setOcrError(null);
     const base64 = await resizeImage(file);
-    const result = await ocrMiles(base64, "image/jpeg");
+    const result = await ocrMiles(base64);
     if ("miles" in result)
       setMiles(String(result.miles)); // or setEditMiles
     else setOcrError("Couldn't read odometer — enter manually");
@@ -93,22 +92,30 @@ export default function RefuelForm({
                 type="button"
                 className="btn btn-square btn-outline"
                 onClick={() => cameraInputRef.current?.click()}
+                disabled={ocrLoading}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="w-5 h-5"
-                >
-                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-                  <circle cx="12" cy="13" r="4" />
-                </svg>
+                {ocrLoading ? (
+                  <span className="loading loading-spinner loading-xs" />
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-5 h-5"
+                  >
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                    <circle cx="12" cy="13" r="4" />
+                  </svg>
+                )}
               </button>
             </div>
+            {ocrError && (
+              <p className="text-error text-xs mt-1">{ocrError}</p>
+            )}
           </label>
           <label className="form-control w-full">
             <span className="label-text">Gallons Used</span>

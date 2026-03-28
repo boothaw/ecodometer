@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { Skeleton, SkeletonButton } from "./Skeleton";
 import { editRefuel } from "../actions/refuels";
+import { ocrMiles } from "../actions/ocr";
 
 type RefuelCardProps = {
   refuel: {
@@ -30,11 +31,34 @@ export function RefuelCard({
   const [isEditing, setIsEditing] = useState(false);
   const [editMiles, setEditMiles] = useState(String(refuel.miles));
   const cameraInputRef = useRef<HTMLInputElement>(null);
+  const [ocrLoading, setOcrLoading] = useState(false);
+  const [ocrError, setOcrError] = useState<string | null>(null);
+
+  function resizeImage(file: File, maxWidth = 800): Promise<string> {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(1, maxWidth / img.width);
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        canvas.getContext("2d")!.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/jpeg", 0.8).split(",")[1]);
+      };
+      img.src = URL.createObjectURL(file);
+    });
+  }
 
   async function handleCameraChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    // TODO: convert to base64, POST to /api/ocr-miles, then call setEditMiles(result)
+    setOcrLoading(true);
+    setOcrError(null);
+    const base64 = await resizeImage(file);
+    const result = await ocrMiles(base64);
+    if ("miles" in result) setEditMiles(String(result.miles));
+    else setOcrError("Couldn't read odometer — enter manually");
+    setOcrLoading(false);
   }
 
   const mpgValue =
@@ -104,22 +128,30 @@ export function RefuelCard({
                   type="button"
                   className="btn btn-square btn-outline"
                   onClick={() => cameraInputRef.current?.click()}
+                  disabled={ocrLoading}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="w-5 h-5"
-                  >
-                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-                    <circle cx="12" cy="13" r="4" />
-                  </svg>
+                  {ocrLoading ? (
+                    <span className="loading loading-spinner loading-xs" />
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="w-5 h-5"
+                    >
+                      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                      <circle cx="12" cy="13" r="4" />
+                    </svg>
+                  )}
                 </button>
               </div>
+              {ocrError && (
+                <p className="text-error text-xs mt-1">{ocrError}</p>
+              )}
             </label>
             <label className="form-control w-full">
               <span className="label-text">Gallons Used</span>
