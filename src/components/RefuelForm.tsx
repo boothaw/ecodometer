@@ -37,6 +37,7 @@ export default function RefuelForm({
     const reader = new FileReader();
     reader.onload = async () => {
       const base64 = (reader.result as string).split(",")[1];
+      console.log("base64", base64);
       const result = await ocrMiles(base64, file.type); // Server Action import
       if (result.miles)
         setMiles(String(result.miles)); // or setEditMiles

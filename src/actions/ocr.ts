@@ -1,16 +1,20 @@
 "use server";
 
 import Anthropic from "@anthropic-ai/sdk";
+import { spec } from "node:test/reporters";
+import { auth } from "@clerk/nextjs/server";
 
 
+export async function ocrMiles(base64: string, mimeType: string) {
+    console.log('occcrrrrr!!!!')
+    // console.log('base', base64)
+    // console.log('mime', mimeType)
 
-export async function ocrMiles(base64: String, mimeType: string) {
-    // userId would need another call to DB is this needed?
-    // const { userId } = await auth();
-    // if (!userId) throw new Error("Unauthorized");
 
-    const client = new Anthropic(); // reads ANTHROPIC_API_KEY from env automatically
+    const { userId } = await auth();
+    if (!userId) throw new Error("Unauthorized");
 
+    const client = new Anthropic(); 
 
     const message = await client.messages.create({
     model: "claude-haiku-4-5-20251001",
@@ -21,7 +25,7 @@ export async function ocrMiles(base64: String, mimeType: string) {
             content: [
                 {
                 type: "image",
-                source: { type: "base64", media_type: mimeType, data: imageBase64 },
+                source: { type: "base64", media_type: mimeType as "image/jpeg" | "image/png" | "image/gif" | "image/webp", data: base64 },
                 },
                 {
                 type: "text",
