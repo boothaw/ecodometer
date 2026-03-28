@@ -1,6 +1,5 @@
 "use server";
 
-import Anthropic from "@anthropic-ai/sdk";
 import { spec } from "node:test/reporters";
 import { auth } from "@clerk/nextjs/server";
 

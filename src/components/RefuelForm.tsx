@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { newRefuel } from "../actions/refuels";
 import { ocrMiles } from "../actions/ocr";
+import Tesseract from "tesseract.js";
 
 type RefuelFormProps = {
   vehicle: {
@@ -29,22 +30,34 @@ export default function RefuelForm({
   const [ocrLoading, setOcrLoading] = useState(false);
   const [ocrError, setOcrError] = useState<string | null>(null);
 
+  function resizeImage(file: File, maxWidth = 800): Promise<string> {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(1, maxWidth / img.width);
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        canvas
+          .getContext("2d")!
+          .drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/jpeg", 0.8).split(",")[1]);
+      };
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
   async function handleCameraChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     setOcrLoading(true);
     setOcrError(null);
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const base64 = (reader.result as string).split(",")[1];
-      console.log("base64", base64);
-      const result = await ocrMiles(base64, file.type); // Server Action import
-      if (result.miles)
-        setMiles(String(result.miles)); // or setEditMiles
-      else setOcrError("Couldn't read odometer — enter manually");
-      setOcrLoading(false);
-    };
-    reader.readAsDataURL(file);
+    const base64 = await resizeImage(file);
+    const result = await ocrMiles(base64, "image/jpeg");
+    if ("miles" in result)
+      setMiles(String(result.miles)); // or setEditMiles
+    else setOcrError("Couldn't read odometer — enter manually");
+    setOcrLoading(false);
   }
 
   return (
