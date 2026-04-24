@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { newRefuel } from "../actions/refuels";
 import { ocrMiles } from "../actions/ocr";
+import { SubmitButton } from "./SubmitButton";
 
 type RefuelFormProps = {
   vehicle: {
@@ -152,9 +153,7 @@ export default function RefuelForm({
             />
           </label>
           <div className="flex gap-2 mt-2">
-            <button type="submit" className="btn btn-primary">
-              Add Fill Up
-            </button>
+            <SubmitButton pendingChildren="Adding...">Add Fill Up</SubmitButton>
             {onClose && (
               <button
                 type="button"

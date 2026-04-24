@@ -2,6 +2,7 @@ import { getProfileForCurrentUser } from "@/src/lib/profile";
 import { createVehicle } from "@/src/actions/vehicles";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { SubmitButton } from "@/src/components/SubmitButton";
 
 
 export default async function NewVehiclePage({
@@ -87,9 +88,7 @@ export default async function NewVehiclePage({
               />
             </label>
             <div className="flex gap-2 mt-2">
-              <button type="submit" className="btn btn-primary">
-                Add vehicle
-              </button>
+              <SubmitButton pendingChildren="Adding...">Add vehicle</SubmitButton>
               <Link href={`/profile/${profile.id}`} className="btn btn-secondary">
                 Cancel
               </Link>

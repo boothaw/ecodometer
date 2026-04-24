@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { deleteVehicle } from "../actions/vehicles";
+import { SubmitButton } from "./SubmitButton";
 
 type Vehicle = {
   id: number;
@@ -28,7 +29,7 @@ export function DeleteVehicleSection({ vehicles }: DeleteVehicleSectionProps) {
         <div className="flex gap-2">
           <form action={deleteVehicle}>
             <input type="hidden" name="vehicleId" value={selected.id} />
-            <button type="submit" className="btn btn-error btn-sm">Confirm Delete</button>
+            <SubmitButton className="btn btn-error btn-sm" pendingChildren="Deleting...">Confirm Delete</SubmitButton>
           </form>
           <button type="button" className="btn btn-secondary btn-sm" onClick={() => { setStep("idle"); setSelected(null); }}>
             Cancel

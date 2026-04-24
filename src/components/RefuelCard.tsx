@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { Skeleton, SkeletonButton } from "./Skeleton";
 import { editRefuel } from "../actions/refuels";
 import { ocrMiles } from "../actions/ocr";
+import { SubmitButton } from "./SubmitButton";
 
 type RefuelCardProps = {
   refuel: {
@@ -97,9 +98,11 @@ export function RefuelCard({
             Edit Fill Up
           </h3>
           <form
-            action={editRefuel}
+            action={async (formData) => {
+              await editRefuel(formData);
+              setIsEditing(false);
+            }}
             className="flex flex-col gap-3 form"
-            onSubmit={() => setIsEditing(false)}
           >
             <input type="hidden" name="refuelId" value={refuel.id} />
             <input type="hidden" name="vehicleId" value={vehicleId} />
@@ -190,9 +193,7 @@ export function RefuelCard({
               />
             </label>
             <div className="flex gap-2 mt-2">
-              <button type="submit" className="btn btn-primary">
-                Save
-              </button>
+              <SubmitButton pendingChildren="Saving...">Save</SubmitButton>
               <button
                 type="button"
                 className="btn btn-secondary"

@@ -59,8 +59,8 @@ html.dark {
     }
   }
   .btn.btn-primary:hover {
-    background-color: var(--orange);
-    border-color: var(--orange);
+    background-color: var(--yellow);
+    border-color: var(--yellow);
     color: var(--navy);
 
     & svg path:first-of-type {
@@ -195,8 +195,8 @@ h5 {
   border: 6px double var(--navy);
 
   &:hover {
-    background-color: var(--orange);
-    border: 6px double var(--orange);
+    background-color: var(--yellow);
+    border: 6px double var(--yellow);
   }
 
   svg {
