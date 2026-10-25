@@ -58,7 +58,7 @@ export function RefuelCard({
     const base64 = await resizeImage(file);
     const result = await ocrMiles(base64);
     if ("miles" in result) setEditMiles(String(result.miles));
-    else setOcrError("Couldn't read odometer — enter manually");
+    else setOcrError(result.error);
     setOcrLoading(false);
   }
 

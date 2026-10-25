@@ -54,9 +54,8 @@ export default function RefuelForm({
     setOcrError(null);
     const base64 = await resizeImage(file);
     const result = await ocrMiles(base64);
-    if ("miles" in result)
-      setMiles(String(result.miles)); // or setEditMiles
-    else setOcrError("Couldn't read odometer — enter manually");
+    if ("miles" in result) setMiles(String(result.miles));
+    else setOcrError(result.error);
     setOcrLoading(false);
   }
 
